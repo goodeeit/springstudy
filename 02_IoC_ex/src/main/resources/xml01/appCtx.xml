@@ -5,4 +5,19 @@
 
   <!-- Contact, Address, Person bean 만들기(<property>, <constructor-arg>) -->
 
+  <bean class="com.gdu.app02.xml01.Contact" id="contact1">
+    <property name="mobile" value="010-0000-0000"/>
+    <property name="fax" value="02-000-0000"/>
+  </bean>
+  <bean class="com.gdu.app02.xml01.Address" id="address1">
+    <property name="postcode" value="00000"/>
+    <property name="jibun" value="강남구 00-00"/>
+    <property name="road" value="강남대로 00"/>
+  </bean>
+  <bean class="com.gdu.app02.xml01.Person" id="person1">
+    <property name="name" value="가길동"/>
+    <property name="contact" ref="contact1"/>
+    <property name="address" ref="address1"/>
+  </bean>
+  
 </beans>
