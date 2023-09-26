@@ -12,7 +12,7 @@ public class MyController01 {
    * 
    * 1. 반환타입
    *  1) String : 응답할 Jsp의 이름을 반환한다.
-   *  2) void   : 컨트롤러가 호출한 서비스에서 직접 응답한다.
+   *  2) void   : 컨트롤러가 호출한 서비스에서 직접 응답한다. 요청 주소를 Jsp 이름으로 인식한다.
    *  3) 기타   : 비동기 통신에서 데이터를 응답한다.
    * 2. 메소드명
    *  - 아무 일도 안 한다.
@@ -33,17 +33,11 @@ public class MyController01 {
     return "index";
   }
   
-  
   @RequestMapping(value="/board/list.do", method=RequestMethod.GET)
   public String boardList() {
     // ViewResolver의 prefix : /WEB-INF/views/
     // ViewResolver의 suffix : .jsp
     return "board/list";  //   /WEB-INF/views/board/list.jsp
   }
-  
-  
-  
-  
-  
   
 }
