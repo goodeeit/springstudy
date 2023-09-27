@@ -9,9 +9,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-  
-  ${title}
+  <%-- model에 저장된 title --%>
+  ${requestScope.title}
   <br>
+  
+  <%-- session에 저장된 title --%>
   ${sessionScope.title}
   <br>
   
