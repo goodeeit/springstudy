@@ -57,8 +57,4 @@ public class MvcController {
     return "/WEB-INF/article/result.jsp";  
   }
   
-  
-  
-  
-  
 }
