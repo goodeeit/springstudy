@@ -3,6 +3,8 @@ package com.gdu.app04.ctrl;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,29 +27,35 @@ public class MvcController {
   }
   
   // @RequestMapping(value="/register.do", method=RequestMethod.POST)
-  public String register(HttpServletRequest request) {
+  public String register(HttpServletRequest request, Model model) {
     int articleNo = Integer.parseInt(request.getParameter("articleNo"));
     String title = request.getParameter("title");
     String content = request.getParameter("content");
-    System.out.println(articleNo + "," + title + "," + content);
-    return "/WEB-INF/article/write.jsp";
+    model.addAttribute("articleNo", articleNo);
+    model.addAttribute("title", title);
+    model.addAttribute("content", content);
+    return "/WEB-INF/article/result.jsp";
   }
   
   // @RequestMapping(value="/register.do", method=RequestMethod.POST)
   public String register2(@RequestParam(value="articleNo") int articleNo
                         , @RequestParam(value="title") String title
-                        , @RequestParam(value="content") String content) {
-    System.out.println(articleNo + "," + title + "," + content);
-    return "/WEB-INF/article/write.jsp";
+                        , @RequestParam(value="content") String content
+                        , Model model) {
+    ArticleVo vo = new ArticleVo(articleNo, title, content);
+    model.addAttribute("vo", vo);
+    return "/WEB-INF/article/result.jsp";
+  }
+  
+  // @RequestMapping(value="/register.do", method=RequestMethod.POST)
+  public String register3(ArticleVo vo) {
+    return "/WEB-INF/article/result.jsp";
   }
   
   @RequestMapping(value="/register.do", method=RequestMethod.POST)
-  public String register3(ArticleVo vo) {
-    System.out.println(vo);
-    return "/WEB-INF/article/write.jsp";
+  public String register4(@ModelAttribute(value="atcVo") ArticleVo vo) {
+    return "/WEB-INF/article/result.jsp";  
   }
-  
-  
   
   
   
