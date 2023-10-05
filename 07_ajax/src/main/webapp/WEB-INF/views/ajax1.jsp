@@ -24,14 +24,29 @@
     	// 응답
     	dataType: 'json',
     	success: function(resData){
-    	  console.log(resData);
+    	  $('#list').empty();
+    	  $.each(resData, function(i, elem){
+    	    $('#list').append('<div class="row"><span>' + elem.name + '</span>, ' + elem.age + '</div>');
+    	  })
     	}
       })
 	})
   }
   
   function fnDetail(){
-	  
+    $(document).on('click', '.row', function(){
+      $.ajax({
+        // 요청
+        type: 'get',
+        url: '${contextPath}/ajax1/detail.do',
+        data: 'name=' + $(this).find('span').text(),
+        // 응답
+        dataType: 'json',
+        success: function(resData){
+          console.log(resData);
+        }
+      })
+    })
   }
 
 </script>
