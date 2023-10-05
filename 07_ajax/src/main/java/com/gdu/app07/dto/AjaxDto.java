@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Dto1 {
+public class AjaxDto {
   private String name;
   private int age;
 }

@@ -43,7 +43,7 @@
         // 응답
         dataType: 'json',
         success: function(resData){
-          console.log(resData);
+          alert(resData.name + ', ' + resData.age);
         }
       })
     })
