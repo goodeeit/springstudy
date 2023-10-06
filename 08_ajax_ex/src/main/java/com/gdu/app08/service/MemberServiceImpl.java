@@ -1,8 +1,10 @@
 package com.gdu.app08.service;
 
+import java.io.File;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 
 import com.gdu.app08.dao.MemberDao;
 import com.gdu.app08.dto.MemberDto;
@@ -44,5 +46,19 @@ public class MemberServiceImpl implements MemberService {
     return Map.of("bmi", bmi, "state", state, "name", memberDto.getName());
     
   }
-
+  
+  @Override
+  public byte[] getProfileImage(int memberNo) {
+    byte[] b = null;
+    try {
+      String path = "C:\\GDJ69\\assets\\image";
+      String filename = "flower" + memberNo + ".jpg";
+      File file = new File(path, filename);
+      b = FileCopyUtils.copyToByteArray(file);
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+    return b;
+  }
+  
 }
