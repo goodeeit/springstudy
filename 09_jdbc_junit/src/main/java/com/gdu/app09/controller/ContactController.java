@@ -1,5 +1,7 @@
 package com.gdu.app09.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +51,7 @@ public class ContactController {
     return "redirect:/contact/detail.do?contact_no=" + contactDto.getContact_no();
   }
   
-  @RequestMapping(value="/contact/delete.do", method=RequestMethod.GET)
+  @RequestMapping(value="/contact/delete.do", method=RequestMethod.POST)
   public String delete(@RequestParam(value="contact_no", required=false, defaultValue="0") int contact_no, RedirectAttributes redirectAttributes) {
     int deleteResult = contactService.deleteContact(contact_no);
     redirectAttributes.addFlashAttribute("deleteResult", deleteResult);
