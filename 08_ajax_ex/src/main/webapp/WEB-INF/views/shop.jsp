@@ -86,5 +86,6 @@
       <tbody id="products"></tbody>
     </table>
   </div>
+  
 </body>
 </html>
