@@ -19,9 +19,9 @@ import com.gdu.app09.dto.ContactDto;
  * 2. @RunWith를 추가한다.
  * 3. @ContextConfiguration을 추가한다.
  *    ContactDao 객체(Bean)을 생성한 방법에 따라서 아래 3가지 방식 중 선택한다.
- *    1) <bean> 태그 : @ContextConfiguration(locations="src/main/webapp/WEB-INF/spring/root-context.xml")
+ *    1) <bean> 태그 : @ContextConfiguration(locations="file:src/main/webapp/WEB-INF/spring/root-context.xml")
  *    2) @Bean       : @ContextConfiguration(classes=AppConfig.class)
- *    3) @Component  : @ContextConfiguration(locations="src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml")
+ *    3) @Component  : @ContextConfiguration(locations="file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml")
  */
 
 // JUnit4를 이용한다.
