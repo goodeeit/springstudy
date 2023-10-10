@@ -13,7 +13,7 @@
     <java-version>11</java-version>
     <org.springframework-version>5.3.3</org.springframework-version>
     <org.aspectj-version>1.9.6</org.aspectj-version>
-    <org.slf4j-version>1.7.30</org.slf4j-version>
+    <org.slf4j-version>2.0.7</org.slf4j-version>
   </properties>
 
   <dependencies>
@@ -29,12 +29,13 @@
       <artifactId>slf4j-api</artifactId>
       <version>${org.slf4j-version}</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>${org.slf4j-version}</version>
-      <scope>runtime</scope>
+      <groupId>org.bgee.log4jdbc-log4j2</groupId>
+      <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+      <version>1.16</version>
     </dependency>
+    
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
     <dependency>
