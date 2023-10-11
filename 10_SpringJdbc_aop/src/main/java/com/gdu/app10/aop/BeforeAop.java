@@ -35,7 +35,7 @@ public class BeforeAop {
      * 3. 매개변수 : JoinPoint
      */
     
-    /* ContactController의 모든 메소드가 동작하기 전에 요청(방식/주소/파라미터) 출력하기 */
+    /* 모든 컨트롤러의 모든 메소드가 동작하기 전에 요청(방식/주소/파라미터) 출력하기 */
         
     // 1. HttpServletRequest
     ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
