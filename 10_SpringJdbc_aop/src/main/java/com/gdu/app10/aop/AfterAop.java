@@ -4,11 +4,13 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Aspect
+@Component
 public class AfterAop {
 
   // 포인트컷 : 언제 동작하는가?
