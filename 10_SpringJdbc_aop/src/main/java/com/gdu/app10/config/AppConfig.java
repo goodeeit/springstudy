@@ -6,6 +6,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import com.gdu.app10.aop.AfterAop;
 import com.gdu.app10.aop.BeforeAop;
 
 @EnableAspectJAutoProxy
@@ -32,6 +33,11 @@ public class AppConfig {
   @Bean
   public BeforeAop beforeAop() {
     return new BeforeAop();
+  }
+  
+  @Bean
+  public AfterAop afterAop() {
+    return new AfterAop();
   }
   
 }
