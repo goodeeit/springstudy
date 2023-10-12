@@ -12,11 +12,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @PropertySource(value="classpath:application.properties")
+@EnableTransactionManagement  // @Transactional 허용
 @EnableAspectJAutoProxy
 @Configuration
 public class AppConfig {
