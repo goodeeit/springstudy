@@ -25,4 +25,15 @@
   SELECT CONTACT_NO, NAME, TEL, EMAIL, ADDRESS, CREATED_AT FROM CONTACT_T WHERE CONTACT_NO = #{contactNo}
   </select>
   
+  <delete id="deleteOldestContact">
+    DELETE
+      FROM CONTACT_T
+     WHERE CONTACT_NO = (SELECT MIN(CONTACT_NO)
+                           FROM CONTACT_T)
+  </delete>
+  
+  
+  
+  
+  
 </mapper>
