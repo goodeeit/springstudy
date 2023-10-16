@@ -5,6 +5,27 @@
 
 <mapper namespace="com.gdu.app14.dao.MemberMapper">
 
-  
+  <insert id="insertMember" parameterType="MemberDto">
+    INSERT INTO MEMBER_T (
+        MEMBER_NO
+      , ID
+      , NAME
+      , GENDER
+      , ADDRESS
+    ) VALUES (
+        MEMBER_SEQ.NEXTVAL
+      , #{id}
+      , #{name}
+      , #{gender}
+      , #{address}
+    )
+  </insert>
   
 </mapper>
+
+
+
+
+
+
+
