@@ -16,6 +16,16 @@ public class NoticeServiceimpl implements NoticeService {
   private final NoticeMapper noticeMapper;
   
   @Override
+  public int modifyNotice(NoticeDto noticeDto) {
+    return noticeMapper.modifyNotice(noticeDto);
+  }
+  
+  @Override
+  public NoticeDto getNotice(int noticeNo) {
+    return noticeMapper.getNotice(noticeNo);
+  }
+  
+  @Override
   public int addNotice(NoticeDto noticeDto) {
     return noticeMapper.addNotice(noticeDto);
   }

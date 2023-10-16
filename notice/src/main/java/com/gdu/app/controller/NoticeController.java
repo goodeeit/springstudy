@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.app.dto.NoticeDto;
@@ -37,6 +38,21 @@ public class NoticeController {
     redirectAttributes.addFlashAttribute("addResult", addResult);
     return "redirect:/notice/list.do";
   }
+  
+  @RequestMapping(value="/notice/detail.do", method=RequestMethod.GET)
+  public String detail(@RequestParam int noticeNo, Model model) {
+    NoticeDto noticeDto = noticeService.getNotice(noticeNo);
+    model.addAttribute("notice", noticeDto);
+    return "notice/detail";  // notice 폴더 아래 detail.jsp로 notice를 보낸다.
+  }
+  
+  @RequestMapping(value="/notice/modify.do", method=RequestMethod.POST)
+  public String modify(NoticeDto noticeDto, RedirectAttributes redirectAttributes) {
+    int modifyResult = noticeService.modifyNotice(noticeDto);
+    redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
+    return "redirect:/notice/detail.do?noticeNo=" + noticeDto.getNoticeNo();
+  }
+  
   
   
   
