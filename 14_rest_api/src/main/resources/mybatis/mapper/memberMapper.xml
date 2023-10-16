@@ -21,6 +21,13 @@
     )
   </insert>
   
+  <select id="getMemberList" parameterType="Map" resultType="MemberDto">
+    SELECT MEMBER_NO, ID, NAME, GENDER, ADDRESS
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY MEMBER_NO DESC) AS RN, MEMBER_NO, ID, NAME, GENDER, ADDRESS
+              FROM MEMBER_T)
+     WHERE RN BETWEEN #{begin} AND #{end}
+  </select>
+  
 </mapper>
 
 

@@ -1,5 +1,6 @@
 package com.gdu.app14.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,9 +32,18 @@ public class MemberServiceImpl implements MemberService {
       System.out.println(e.getClass().getName());  // 발생한 예외 클래스의 이름 확인
     }
     
-    
     return map;
     
   }
+  
+  @Override
+  public List<MemberDto> getMembers(int page) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  
+  
+  
+  
 
 }
