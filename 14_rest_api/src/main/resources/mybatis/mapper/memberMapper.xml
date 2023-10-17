@@ -47,6 +47,14 @@
      WHERE MEMBER_NO = #{memberNo}
   </update>
   
+  <delete id="deleteMember" parameterType="int">
+    DELETE
+      FROM MEMBER_T
+     WHERE MEMBER_NO = #{memberNo}     
+  </delete>
+  
+  
+  
 </mapper>
 
 

@@ -23,6 +23,7 @@
 	  fnMemberList();
 	  fnMemberDetail();
 	  fnMemberModify();
+	  fnRemoveMember();
   })
 
   // 전체 선택을 클릭하면 개별 선택에 영향을 미친다.
@@ -52,6 +53,7 @@
 	  $('#address').val('');
 	  $('#btn_register').prop('disabled', false);
     $('#btn_modify').prop('disabled', true);
+    $('#btn_remove').prop('disabled', true);
   }
   
   // 회원 등록
@@ -146,6 +148,7 @@
 					  $('#address').val(member.address);
 					  $('#btn_register').prop('disabled', true);
 					  $('#btn_modify').prop('disabled', false);
+					  $('#btn_remove').prop('disabled', false);
 				  }
 			  }
 		  })
@@ -180,10 +183,33 @@
 	  })
   }
   
-  
-  
-  
-</script>
+  // 회원 정보 삭제
+  function fnRemoveMember(){
+	  $('#btn_remove').click(function(){
+		  if(!confirm('회원 정보를 삭제할까요?')){
+			  return;
+		  }
+		  $.ajax({
+			  // 요청
+			  type: 'delete',
+			  url: '${contextPath}/members/' + $('#memberNo').val(),
+			  // 응답
+			  dataType: 'json',
+			  success: function(resData){
+				  if(resData.removeResult === 1){
+					  alert('회원 정보가 삭제되었습니다.');
+	          page = 1;
+	          fnMemberList();
+	          fnInit();
+				  } else {
+					  alert('회원 정보가 삭제되지 않았습니다.');
+				  }
+			  }
+		  })
+	  })
+  }
+
+  </script>
 
 </head>
 <body>
@@ -219,7 +245,8 @@
     <div>
       <button type="button" onclick="fnInit()">초기화</button>
       <button type="button" id="btn_register">등록</button>
-      <button type="button" id="btn_modify">수정</button>      
+      <button type="button" id="btn_modify">수정</button>
+      <button type="button" id="btn_remove">삭제</button>
     </div>
   </div>
 

@@ -63,7 +63,11 @@ public class MemberController {
     return memberService.modifyMember(memberDto);
   }
   
-  
+  // 회원 정보 삭제 요청
+  @RequestMapping(value="/members/{memberNo}", method=RequestMethod.DELETE, produces="application/json")
+  public Map<String, Object> removeMember(@PathVariable(value="memberNo") int memberNo) {
+    return memberService.removeMember(memberNo);
+  }
   
   
   

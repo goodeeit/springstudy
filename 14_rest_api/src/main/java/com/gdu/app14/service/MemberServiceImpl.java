@@ -84,7 +84,10 @@ public class MemberServiceImpl implements MemberService {
     return Map.of("modifyResult", modifyResult);
   }
   
-  
+  @Override
+  public Map<String, Object> removeMember(int memberNo) {
+    return Map.of("removeResult", memberMapper.deleteMember(memberNo));
+  }
   
   
   

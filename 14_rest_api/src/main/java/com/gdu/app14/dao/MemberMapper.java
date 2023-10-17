@@ -25,6 +25,8 @@ public interface MemberMapper {
   // 회원 정보 수정
   public int updateMember(MemberDto memberDto);
   
+  // 회원 정보 삭제
+  public int deleteMember(int memberNo);
   
   
   
