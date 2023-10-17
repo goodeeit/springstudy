@@ -21,10 +21,10 @@ public class NoticeController {
   private final NoticeService noticeService;
   
   @RequestMapping(value="/notice/list.do", method=RequestMethod.GET)
-  public String list(Model model) {  // forward할 데이터는 Model에 저장한다.
+  public String list(Model model) {
     List<NoticeDto> noticeList = noticeService.getNoticeList();
-    model.addAttribute("noticeList", noticeList);  // forward할 데이터 저장하기(저장한 이름은 noticeList)
-    return "notice/list";  // notice 폴더 아래의 list.jsp로 forward하시오.
+    model.addAttribute("noticeList", noticeList);
+    return "notice/list";
   }
   
   @RequestMapping(value="/notice/write.do", method=RequestMethod.GET)
@@ -33,7 +33,8 @@ public class NoticeController {
   }
   
   @RequestMapping(value="/notice/save.do", method=RequestMethod.POST)
-  public String save(NoticeDto noticeDto, RedirectAttributes redirectAttributes) {  // redirect할 데이터는 RedirectAttributes에 저장한다.
+  public String save(NoticeDto noticeDto
+                   , RedirectAttributes redirectAttributes) {  // redirect할 데이터는 RedirectAttributes에 저장한다.
     int addResult = noticeService.addNotice(noticeDto);
     redirectAttributes.addFlashAttribute("addResult", addResult);
     return "redirect:/notice/list.do";
@@ -43,7 +44,7 @@ public class NoticeController {
   public String detail(@RequestParam int noticeNo, Model model) {
     NoticeDto noticeDto = noticeService.getNotice(noticeNo);
     model.addAttribute("notice", noticeDto);
-    return "notice/detail";  // notice 폴더 아래 detail.jsp로 notice를 보낸다.
+    return "notice/detail";
   }
   
   @RequestMapping(value="/notice/modify.do", method=RequestMethod.POST)
