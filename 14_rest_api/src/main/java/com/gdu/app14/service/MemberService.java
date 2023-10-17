@@ -23,7 +23,7 @@ public interface MemberService {
   // 회원 정보 삭제
   public Map<String, Object> removeMember(int memberNo);
   
-  
-  
+  // 회원들 정보 삭제
+  public Map<String, Object> removeMembers(String memberNoList);
   
 }

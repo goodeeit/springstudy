@@ -193,7 +193,7 @@
 		  $.ajax({
 			  // 요청
 			  type: 'delete',
-			  url: '${contextPath}/members/' + $('#memberNo').val(),
+			  url: '${contextPath}/member/' + $('#memberNo').val(),
 			  // 응답
 			  dataType: 'json',
 			  success: function(resData){
@@ -221,7 +221,6 @@
 				  arr.push($(elem).val());
 			  }
 		  })
-		  console.log(arr.join(','));
 		  // 체크된 요소가 없으면 삭제 중지
 		  if(arr.length === 0){
 			  alert('선택된 회원 정보가 없습니다. 다시 시도하세요.');
@@ -229,7 +228,21 @@
 		  }
 		  // 선택된 회원 삭제
 		  $.ajax({
-			  
+			  // 요청
+			  type: 'delete',
+			  url: '${contextPath}/members/' + arr.join(','),
+			  // 응답
+			  dataType: 'json',
+			  success: function(resData){
+				  if(resData.removeResult > 0){
+					  alert('선택한 회원 정보들이 삭제되었습니다.');
+			      page = 1;
+            fnMemberList();
+            fnInit();
+				  } else {
+					  alert('선택한 회원 정보들이 삭제되지 않았습니다.');
+				  }
+			  }
 		  })
 	  })
   }
