@@ -111,7 +111,7 @@
            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
          ]
        },
-       simpleUpload: {
+       ckfinder: {
     	   // 업로드 경로
     	   uploadUrl: '${contextPath}/ckeditor/upload.do'
        }
@@ -119,25 +119,6 @@
 	   .catch(err => {
 		   console.log(err)
 	   });
-	  
-	  /*
-	  CKEDITOR.replace('contents', {  // <textarea id="contents"></textarea>
-		  width: '1000px',
-		  height: '400px',
-		  filebrowserImageUploadUrl: '${contextPath}/ckeditor/upload.do'  // 이미지 업로드 경로
-	  });
-	  
-	  CKEDITOR.on('dialogDefinition', function(event){
-		  var dialogName = event.data.name;
-		  var dialogDefinition = event.data.definition;
-		  switch(dialogName){
-		  case 'image':
-			  dialogDefinition.removeContents('Link');
-			  dialogDefinition.removeContents('advanced');
-			  break;
-		  }
-	  });
-	  */
 	  
   }
   

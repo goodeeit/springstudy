@@ -20,6 +20,15 @@ public class NoticeController {
 
   private final NoticeService noticeService;
   
+  @RequestMapping(value="/notice/save.do", method=RequestMethod.POST)
+  public String save(NoticeDto noticeDto
+                   , RedirectAttributes redirectAttributes) {
+    int addResult = noticeService.addNotice(noticeDto);
+    redirectAttributes.addFlashAttribute("addResult", addResult);
+    return "redirect:/notice/list.do";
+  }
+  
+  
   @RequestMapping(value="/notice/list.do", method=RequestMethod.GET)
   public String list(Model model) {
     List<NoticeDto> noticeList = noticeService.getNoticeList();
@@ -32,12 +41,12 @@ public class NoticeController {
     return "notice/write";
   }
   
-  @RequestMapping(value="/notice/save.do", method=RequestMethod.POST)
-  public String save(NoticeDto noticeDto
-                   , RedirectAttributes redirectAttributes) {  // redirect할 데이터는 RedirectAttributes에 저장한다.
-    int addResult = noticeService.addNotice(noticeDto);
-    redirectAttributes.addFlashAttribute("addResult", addResult);
-    return "redirect:/notice/list.do";
+  @RequestMapping(value="/notice/modify.do", method=RequestMethod.POST)
+  public String modify(NoticeDto noticeDto
+                     , RedirectAttributes redirectAttributes) {
+    int modifyResult = noticeService.modifyNotice(noticeDto);
+    redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
+    return "redirect:/notice/detail.do?noticeNo=" + noticeDto.getNoticeNo();
   }
   
   @RequestMapping(value="/notice/detail.do", method=RequestMethod.GET)
@@ -46,20 +55,6 @@ public class NoticeController {
     model.addAttribute("notice", noticeDto);
     return "notice/detail";
   }
-  
-  @RequestMapping(value="/notice/modify.do", method=RequestMethod.POST)
-  public String modify(NoticeDto noticeDto, RedirectAttributes redirectAttributes) {
-    int modifyResult = noticeService.modifyNotice(noticeDto);
-    redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
-    return "redirect:/notice/detail.do?noticeNo=" + noticeDto.getNoticeNo();
-  }
-  
-  
-  
-  
-  
-  
-  
   
   
 }

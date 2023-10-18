@@ -122,6 +122,7 @@
   }
   
   // 페이지를 바꿀때마다 호출되는 fnAjaxPaging 함수
+  // PageUtil의 getAjaxPaging() 메소드에서 언제 호출되는지 확인 가능함
   function fnAjaxPaging(p){
 	  page = p;        // 페이지 번호를 바꾼다.
 	  fnMemberList();  // 새로운 목록을 가져온다.
