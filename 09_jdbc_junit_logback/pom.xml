@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.gdu</groupId>
   <artifactId>app09</artifactId>
-  <name>09_jdbc_junit</name>
+  <name>09_jdbc_junit_logback</name>
   <packaging>war</packaging>
   <version>1.0.0-BUILD-SNAPSHOT</version>
 
