@@ -17,3 +17,8 @@ a {
 ul, ol {
   list-style-type: none;
 }
+
+body {
+  width: 1000px;
+  margin: 0 auto;
+}
