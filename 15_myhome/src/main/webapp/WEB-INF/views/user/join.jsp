@@ -16,14 +16,15 @@
   /* 함수 호출 */
   $(() => {
 	  fnCheckEmail();
+	  fnJoin();
   })
   
   /* 전역변수 선언 */
   var emailPassed = false;
   
-  
   /* 함수 정의 */
   const fnCheckEmail = () => {
+	  
 	  $('#btn_get_code').click(() => {
 		  
 		  let email = $('#email').val();
@@ -36,8 +37,7 @@
 			  
 			  // 1. 정규식 검사
 			  let regEmail = /^[A-Za-z0-9-_]+@[A-Za-z0-9]{2,}([.][A-Za-z]{2,6}){1,2}$/;
-			  emailPassed = regEmail.test(email);
-			  if(!emailPassed){
+			  if(!regEmail.test(email)){
 				  reject(1);
 				  return;
 			  }
@@ -70,11 +70,22 @@
 				  // 응답
 				  dataType: 'json',
 				  success: (resData) => {  // resData === {"code": "6자리코드"}
-					  console.log(resData);
+					  alert(email + "로 인증코드를 전송했습니다.");
+					  $('#code').prop('disabled', false);
+					  $('#btn_verify_code').prop('disabled', false);
+					  $('#btn_verify_code').click(() => {
+						  emailPassed = $('#code').val() === resData.code;
+						  if(emailPassed){
+							  alert('이메일이 인증되었습니다.');
+						  } else {
+							  alert('이메일 인증이 실패했습니다.');
+						  }
+					  })
 				  }
 			  })
 			  
 		  }).catch((state) => {
+			  emailPassed = false;
 			  switch(state){
 			  case 1: $('#msg_email').text('이메일 형식이 올바르지 않습니다.'); break;
 			  case 2: $('#msg_email').text('이미 가입한 이메일입니다. 다른 이메일을 입력해 주세요.'); break;
@@ -82,6 +93,16 @@
 		  })
 	  })
 	  
+  }
+  
+  const fnJoin = () => {
+	  $('#frm_join').submit((ev) => {
+		  if(!emailPassed){
+			  alert('이메일을 인증 받아야 합니다.');
+			  ev.preventDefault();
+			  return;
+		  }
+	  })
   }
 
 </script>
@@ -100,8 +121,8 @@
         <span id="msg_email"></span>
       </div>
       <div>
-        <input type="text" id="code" placeholder="인증코드입력">
-        <button type="button" id="btn_verify_code">인증하기</button>
+        <input type="text" id="code" placeholder="인증코드입력" disabled>
+        <button type="button" id="btn_verify_code" disabled>인증하기</button>
       </div>
     </div>
     
