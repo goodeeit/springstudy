@@ -26,10 +26,10 @@
   const fnCheckEmail = () => {
 	  $('#btn_get_code').click(() => {
 		  
-		  let email = $('#email').val();
-		  
 		  // 연속된 ajax() 함수 호출의 실행 순서를 보장하는 JavaScript 객체 Promise
 		  new Promise((resolve, reject) => {
+  		  
+			  let email = $('#email').val();
 			  
 			  // 성공했다면 resolve() 함수 호출 -> then() 메소드에 정의된 화살표 함수 호출
 			  // 실패했다면 reject() 함수 호출 -> catch() 메소드에 정의된 화살표 함수 호출
@@ -42,11 +42,32 @@
 				  return;
 			  }
 			  
+			  // 2. 이메일 중복 체크
+			  $.ajax({
+				  // 요청
+				  type: 'get',
+				  url: '${contextPath}/user/checkEmail.do',
+				  data: 'email=' + email,
+				  // 응답
+				  dataType: 'json',
+				  success: (resData) => {  // resData === {"enableEmail": true}
+					  if(resData.enableEmail){
+						  resolve();
+					  } else {
+						  reject(2);
+					  }
+				  }
+			  })
+			  
 		  }).then(() => {
+			  
+			  // 3. 인증코드 전송
+			  
 			  
 		  }).catch((state) => {
 			  switch(state){
 			  case 1: $('#msg_email').text('이메일 형식이 올바르지 않습니다.'); break;
+			  case 2: $('#msg_email').text('이미 가입한 이메일입니다. 다른 이메일을 입력해 주세요.'); break;
 			  }
 		  })
 	  })
