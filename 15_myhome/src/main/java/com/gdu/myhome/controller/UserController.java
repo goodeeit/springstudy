@@ -68,7 +68,10 @@ public class UserController {
     return userService.checkEmail(email);
   }
   
-  
+  @GetMapping(value="/sendCode.do", produces=MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Map<String, Object>> sendCode(@RequestParam String email) {
+    return userService.sendCode(email);
+  }
   
   
   

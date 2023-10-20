@@ -90,5 +90,25 @@ public class UserServiceImpl implements UserService {
     
   }
   
+  @Override
+  public ResponseEntity<Map<String, Object>> sendCode(String email) {
+    
+    // RandomString 생성(6자리, 문자 사용, 숫자 사용)
+    String code = mySecurityUtils.getRandomString(6, true, true);
+    
+    // 메일 전송
+    myJavaMailUtils.sendJavaMail(email
+                               , "myhome 인증 코드"
+                               , "<div>인증코드는 <strong>" + code + "</strong>입니다.</div>");
+    
+    return new ResponseEntity<>(Map.of("code", code), HttpStatus.OK);
+    
+  }
   
 }
+
+
+
+
+
+
