@@ -148,23 +148,3 @@ INSERT INTO LEAVE_USER_T VALUES('user1@naver.com', TO_DATE('20220101', 'YYYYMMDD
 DELETE FROM USER_T WHERE USER_NO = 1;
 COMMIT;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
