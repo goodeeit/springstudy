@@ -81,7 +81,12 @@
      WHERE USER_NO = #{userNo}
   </update>
 
-
+  <update id="updateUserPw" parameterType="UserDto">
+    UPDATE USER_T
+       SET PW = #{pw}
+         , PW_MODIFIED_AT = SYSDATE
+     WHERE USER_NO = #{userNo}
+  </update>
 
 
 

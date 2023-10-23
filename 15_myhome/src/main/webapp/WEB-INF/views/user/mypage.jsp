@@ -10,39 +10,17 @@
   <jsp:param value="마이페이지" name="title"/>
 </jsp:include>
 
-<script>
-
-  $(() => {
-	  fnModifyUser();
-  })
-  
-  const fnModifyUser = () => {
-	  $('#btn_modify').click(() => {
-  	  $.ajax({
-  		  // 요청
-  		  type: 'post',
-  		  url: '${contextPath}/user/modify.do',
-  		  data: $('#frm_mypage').serialize(),
-  		  // 응답
-  		  dataType: 'json',
-  		  success: (resData) => {  // {"modifyResult": 1}
-  			  if(resData.modifyResult === 1){
-  				  alert('회원 정보가 수정되었습니다.');
-  			  } else {
-  				  alert('회원 정보가 수정되지 않았습니다.');
-  			  }
-  		  }
-  	  })
-	  })
-  }
-
-</script>
+<script src="${contextPath}/resources/js/user_modify.js?dt=${dt}"></script>
 
 <div>
 
   <form id="frm_mypage">
     
     <h1>마이페이지</h1>
+    
+    <div>
+      <button type="button" id="btn_modify_pw">비밀번호변경</button>
+    </div>
     
     <div>이메일 : ${sessionScope.user.email}</div>
     <div>가입일 : ${sessionScope.user.joinedAt}</div>

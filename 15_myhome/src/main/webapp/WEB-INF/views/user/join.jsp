@@ -36,6 +36,7 @@
       <input type="password" name="pw" id="pw">
       <span id="msg_pw"></span>
     </div>
+    
     <div>
       <label for="pw2">비밀번호 확인</label>
       <input type="password" id="pw2">

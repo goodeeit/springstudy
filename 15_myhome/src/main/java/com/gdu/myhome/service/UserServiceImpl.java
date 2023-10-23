@@ -205,6 +205,44 @@ public class UserServiceImpl implements UserService {
     return new ResponseEntity<>(Map.of("modifyResult", modifyResult), HttpStatus.OK);
     
   }
+
+  @Override
+  public void modifyPw(HttpServletRequest request, HttpServletResponse response) {
+    
+    String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    UserDto user = UserDto.builder()
+                    .pw(pw)
+                    .userNo(userNo)
+                    .build();
+    
+    int modifyPwResult = userMapper.updateUserPw(user);
+    
+    try {
+      
+      response.setContentType("text/html; charset=UTF-8");
+      PrintWriter out = response.getWriter();
+      out.println("<script>");
+      if(modifyPwResult == 1) {
+        HttpSession session = request.getSession();
+        UserDto sessionUser = (UserDto)session.getAttribute("user");
+        sessionUser.setPw(pw);
+        out.println("alert('비밀번호가 수정되었습니다.')");
+        out.println("location.href='" + request.getContextPath() + "/user/mypage.form'");
+      } else {
+        out.println("alert('비밀번호가 수정되지 않았습니다.')");
+        out.println("history.back()");
+      }
+      out.println("</script>");
+      out.flush();
+      out.close();
+      
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+  }
   
 }
 
