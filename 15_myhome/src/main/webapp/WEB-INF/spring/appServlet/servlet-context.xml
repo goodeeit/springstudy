@@ -34,7 +34,8 @@
     <interceptor>
       <mapping path="/user/agree.form"/>
       <mapping path="/user/join.form"/>
-      
+      <mapping path="/user/login.form"/>
+      <beans:bean class="com.gdu.myhome.intercept.ShouldNotLoginInterceptor" />
     </interceptor>
     
   </interceptors>
