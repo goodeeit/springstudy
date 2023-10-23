@@ -64,7 +64,6 @@ public class UserController {
   
   @GetMapping(value="/checkEmail.do", produces=MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam String email) {
-    System.out.println(email);
     return userService.checkEmail(email);
   }
   
@@ -73,7 +72,9 @@ public class UserController {
     return userService.sendCode(email);
   }
   
-  
-  
+  @PostMapping("/join.do")
+  public void join(HttpServletRequest request, HttpServletResponse response) {
+    userService.join(request, response);
+  }
   
 }

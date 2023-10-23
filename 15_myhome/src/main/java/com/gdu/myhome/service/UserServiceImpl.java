@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.myhome.dao.UserMapper;
 import com.gdu.myhome.dto.UserDto;
@@ -18,6 +19,7 @@ import com.gdu.myhome.util.MySecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
@@ -77,6 +79,7 @@ public class UserServiceImpl implements UserService {
     
   }
   
+  @Transactional(readOnly=true)
   @Override
   public ResponseEntity<Map<String, Object>> checkEmail(String email) {
     
@@ -140,7 +143,7 @@ public class UserServiceImpl implements UserService {
       PrintWriter out = response.getWriter();
       out.println("<script>");
       if(joinResult == 1) {
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute("user", userMapper.getUser(Map.of("email", email)));
         userMapper.insertAccess(email);
         out.println("alert('회원 가입되었습니다.')");
         out.println("location.href='" + request.getContextPath() + "/main.do'");
