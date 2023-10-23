@@ -160,6 +160,35 @@ public class UserServiceImpl implements UserService {
     }
     
   }
+
+  @Override
+  public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request) {
+    
+    String name = mySecurityUtils.preventXSS(request.getParameter("name"));
+    String gender = request.getParameter("gender");
+    String mobile = request.getParameter("mobile");
+    String postcode = request.getParameter("postcode");
+    String roadAddress = request.getParameter("roadAddress");
+    String jibunAddress = request.getParameter("jibunAddress");
+    String detailAddress = mySecurityUtils.preventXSS(request.getParameter("detailAddress"));
+    String event = request.getParameter("event");
+    
+    UserDto user = UserDto.builder()
+        .name(name)
+        .gender(gender)
+        .mobile(mobile)
+        .postcode(postcode)
+        .roadAddress(roadAddress)
+        .jibunAddress(jibunAddress)
+        .detailAddress(detailAddress)
+        .agree(event.equals("on") ? 1 : 0)
+        .build();
+    
+    int modifyResult = userMapper.updateUser(user);
+    
+    return null;
+    
+  }
   
 }
 
