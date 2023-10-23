@@ -77,4 +77,23 @@ public class UserController {
     userService.join(request, response);
   }
   
+  @GetMapping("/mypage.form")
+  public String mypageForm() {
+    return "user/mypage";
+  }
+  
+  @PostMapping(value="/modify.do", produces=MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request) {
+    return userService.modify(request);
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }

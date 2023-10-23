@@ -172,6 +172,8 @@ public class UserServiceImpl implements UserService {
     String jibunAddress = request.getParameter("jibunAddress");
     String detailAddress = mySecurityUtils.preventXSS(request.getParameter("detailAddress"));
     String event = request.getParameter("event");
+    int agree = event.equals("on") ? 1 : 0;
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
     
     UserDto user = UserDto.builder()
         .name(name)
@@ -181,12 +183,26 @@ public class UserServiceImpl implements UserService {
         .roadAddress(roadAddress)
         .jibunAddress(jibunAddress)
         .detailAddress(detailAddress)
-        .agree(event.equals("on") ? 1 : 0)
+        .agree(agree)
+        .userNo(userNo)
         .build();
     
     int modifyResult = userMapper.updateUser(user);
     
-    return null;
+    if(modifyResult == 1) {
+      HttpSession session = request.getSession();
+      UserDto sessionUser = (UserDto)session.getAttribute("user");
+      sessionUser.setName(name);
+      sessionUser.setGender(gender);
+      sessionUser.setMobile(mobile);
+      sessionUser.setPostcode(postcode);
+      sessionUser.setRoadAddress(roadAddress);
+      sessionUser.setJibunAddress(jibunAddress);
+      sessionUser.setDetailAddress(detailAddress);
+      sessionUser.setAgree(agree);
+    }
+    
+    return new ResponseEntity<>(Map.of("modifyResult", modifyResult), HttpStatus.OK);
     
   }
   
