@@ -12,33 +12,6 @@
 
 <script src="${contextPath}/resources/js/user_join.js?dt=${dt}"></script>
 
-<script>
-
-  $(()=>{
-	  fnCheckPassword2();
-  })
-  
-  // 전역 변수
-  var pw2Passed = false;
-  
-  const fnCheckPassword2 = () => {
-	  $('#pw2').blur((ev) => {
-		  let pw = $('#pw').val();
-		  let pw2 = ev.target.value;
-		  pw2Passed = (pw !== '') && (pw === pw2);
-		  if(pw2Passed){
-			  $('#msg_pw2').text('');
-		  } else {
-			  $('#msg_pw2').text('비밀번호 입력을 확인하세요.');
-		  }
-	  })
-  }
-  
-
-  
-
-</script>
-
 <div>
 
   <form id="frm_join" method="post" action="${contextPath}/user/join.do">
@@ -72,10 +45,11 @@
     <div>
       <label for="name">이름</label>
       <input type="text" name="name" id="name">
+      <span id="msg_name"></span>
     </div>
     
     <div>
-      <input type="radio" name="gender" value="NO" id="none">
+      <input type="radio" name="gender" value="NO" id="none" checked>
       <label for="none">선택안함</label>
       <input type="radio" name="gender" value="M" id="man">
       <label for="man">남자</label>
@@ -86,6 +60,7 @@
     <div>
       <label for="mobile">휴대전화번호</label>
       <input type="text" name="mobile" id="mobile">
+      <span id="msg_mobile"></span>
     </div>
     
     <div>    
