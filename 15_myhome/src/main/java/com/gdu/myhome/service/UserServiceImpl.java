@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.myhome.dao.UserMapper;
+import com.gdu.myhome.dto.InactiveUserDto;
 import com.gdu.myhome.dto.UserDto;
 import com.gdu.myhome.util.MyJavaMailUtils;
 import com.gdu.myhome.util.MySecurityUtils;
@@ -30,37 +31,39 @@ public class UserServiceImpl implements UserService {
   private final MyJavaMailUtils myJavaMailUtils;
   
   @Override
-  public void login(HttpServletRequest request, HttpServletResponse response) {
+  public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
     
     String email = request.getParameter("email");
     String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
     
     Map<String, Object> map = Map.of("email", email
                                    , "pw", pw);
+
+    HttpSession session = request.getSession();
     
+    // 휴면 계정인지 확인하기
+    InactiveUserDto inactiveUser = userMapper.getInactiveUser(map);
+    if(inactiveUser != null) {
+      session.setAttribute("inactiveUser", inactiveUser);
+      response.sendRedirect(request.getContextPath() + "/user/active.form");
+    }
+    
+    // 정상적인 로그인 처리하기
     UserDto user = userMapper.getUser(map);
     
     if(user != null) {
       request.getSession().setAttribute("user", user);
       userMapper.insertAccess(email);
-      try {
-        response.sendRedirect(request.getParameter("referer"));
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      response.sendRedirect(request.getParameter("referer"));
     } else {
-      try {
-        response.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        out.println("<script>");
-        out.println("alert('일치하는 회원 정보가 없습니다.')");
-        out.println("location.href='"+request.getContextPath()+"/main.do'");
-        out.println("</script>");
-        out.flush();
-        out.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      response.setContentType("text/html; charset=UTF-8");
+      PrintWriter out = response.getWriter();
+      out.println("<script>");
+      out.println("alert('일치하는 회원 정보가 없습니다.')");
+      out.println("location.href='" + request.getContextPath() + "/main.do'");
+      out.println("</script>");
+      out.flush();
+      out.close();
     }
     
   }
