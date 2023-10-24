@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
   public void login(HttpServletRequest request, HttpServletResponse response) throws Exception;
+  public String getNaverLoginURL(HttpServletRequest request) throws Exception;
+  public String getNaverLoginAccessToken(HttpServletRequest request) throws Exception;
   public void logout(HttpServletRequest request, HttpServletResponse response);
   public ResponseEntity<Map<String, Object>> checkEmail(String email);
   public ResponseEntity<Map<String, Object>> sendCode(String email);

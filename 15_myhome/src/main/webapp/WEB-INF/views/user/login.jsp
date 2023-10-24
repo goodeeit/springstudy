@@ -37,7 +37,9 @@
     </ul>
     <hr>
     <div>
-      <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=RTJMyHb54a63lvLzPh7A&redirect_uri=${redirect_uri}&state=${state}"><img src="${contextPath}/resources/image/btnG_완성형.png" width="200px"></a>
+      <a href="${naverLoginURL}">
+        <img src="${contextPath}/resources/image/btnG_완성형.png" width="200px">
+      </a>
     </div>
   </div>
 

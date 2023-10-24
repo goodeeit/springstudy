@@ -1,8 +1,5 @@
 package com.gdu.myhome.controller;
 
-import java.math.BigInteger;
-import java.net.URLEncoder;
-import java.security.SecureRandom;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +32,15 @@ public class UserController {
     String referer = request.getHeader("referer");
     model.addAttribute("referer", referer == null ? request.getContextPath() + "/main.do" : referer);
     // 네이버로그인-1
-    // 네이버 로그인 연동 URL 생성하기를 위해 redirect_url(URLEncoder), state(SecureRandom) 값의 전달이 필요하다.
-    model.addAttribute("redirect_uri", URLEncoder.encode("주소", "UTF-8"));
-    String state = new BigInteger(130, new SecureRandom()).toString();
-    model.addAttribute("state", state);
-    request.getSession().setAttribute("state", state);
+    model.addAttribute("naverLoginURL", userService.getNaverLoginURL(request));
     return "user/login";
+  }
+  
+  @GetMapping("/naver/getAccessToken.do")
+  public String getAccessToken(HttpServletRequest request) throws Exception {
+    // 네이버로그인-2
+    String accessToken = userService.getNaverLoginAccessToken(request);
+    return accessToken;
   }
   
   @PostMapping("/login.do")
