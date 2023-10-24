@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gdu.myhome.dto.UserDto;
 import com.gdu.myhome.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,14 @@ public class UserController {
   public String getAccessToken(HttpServletRequest request) throws Exception {
     // 네이버로그인-2
     String accessToken = userService.getNaverLoginAccessToken(request);
-    return accessToken;
+    return "redirect:/user/naver/getProfile.do?accessToken=" + accessToken;
+  }
+  
+  @GetMapping("/naver/getProfile.do")
+  public void getProfile(@RequestParam String accessToken) throws Exception {
+    // 네이버로그인-3
+    UserDto user = userService.getNaverProfile(accessToken);
+    System.out.println(user);
   }
   
   @PostMapping("/login.do")

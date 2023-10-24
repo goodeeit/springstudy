@@ -1,7 +1,11 @@
 package com.gdu.myhome.service;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.util.Map;
@@ -11,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,6 +37,9 @@ public class UserServiceImpl implements UserService {
   private final UserMapper userMapper;
   private final MySecurityUtils mySecurityUtils;
   private final MyJavaMailUtils myJavaMailUtils;
+  
+  private final String client_id = "RTJMyHb54a63lvLzPh7A";
+  private final String client_secret = "0xR9yv0oo3";
   
   @Override
   public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -81,7 +89,6 @@ public class UserServiceImpl implements UserService {
     
     String apiURL = "https://nid.naver.com/oauth2.0/authorize";
     String response_type = "code";
-    String client_id = "RTJMyHb54a63lvLzPh7A";
     String redirect_uri = URLEncoder.encode("http://localhost:8080" + request.getContextPath() + "/user/naver/getAccessToken.do", "UTF-8");
     String state = new BigInteger(130, new SecureRandom()).toString();
   
@@ -105,11 +112,86 @@ public class UserServiceImpl implements UserService {
     // 접근 토큰 발급 요청
     // 네이버로그인-2를 수행하기 위해서는 네이버로그인-1의 응답 결과인 code와 state가 필요하다.
     
-    // 네이버로그인-1의 응답 결과
+    // 네이버로그인-1의 응답 결과(access_token을 얻기 위해 요청 파라미터로 사용해야 함)
     String code = request.getParameter("code");
     String state = request.getParameter("state");
     
-    return null;
+    String apiURL = "https://nid.naver.com/oauth2.0/token";
+    String grant_type = "authorization_code";  // access_token 발급 받을 때 사용하는 값(갱신이나 삭제시에는 다른 값을 사용함)
+    
+    StringBuilder sb = new StringBuilder();
+    sb.append(apiURL);
+    sb.append("?grant_type=").append(grant_type);
+    sb.append("&client_id=").append(client_id);
+    sb.append("&client_secret=").append(client_secret);
+    sb.append("&code=").append(code);
+    sb.append("&state=").append(state);
+    
+    // 요청
+    URL url = new URL(sb.toString());
+    HttpURLConnection con = (HttpURLConnection)url.openConnection();
+    con.setRequestMethod("GET");  // 반드시 대문자로 작성
+    
+    // 응답
+    BufferedReader reader = null;
+    int responseCode = con.getResponseCode();
+    if(responseCode == 200) {
+      reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+    } else {
+      reader = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+    }
+    
+    String line = null;
+    StringBuilder responseBody = new StringBuilder();
+    while ((line = reader.readLine()) != null) {
+      responseBody.append(line);
+    }
+    
+    JSONObject obj = new JSONObject(responseBody.toString());
+    return obj.getString("access_token");
+    
+  }
+  
+  @Override
+  public UserDto getNaverProfile(String accessToken) throws Exception {
+    
+    // 네이버 로그인-3
+    // 접근 토큰을 전달한 뒤 사용자의 프로필 정보(이름, 이메일, 성별, 휴대전화번호) 받아오기
+    // 요청 헤더에 Authorization: Bearer accessToken 정보를 저장하고 요청함
+    
+    // 요청
+    String apiURL = "https://openapi.naver.com/v1/nid/me";
+    URL url = new URL(apiURL);
+    HttpURLConnection con = (HttpURLConnection)url.openConnection();
+    con.setRequestMethod("GET");
+    con.setRequestProperty("Authorization", "Bearer " + accessToken);
+    
+    // 응답
+    BufferedReader reader = null;
+    int responseCode = con.getResponseCode();
+    if(responseCode == 200) {
+      reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+    } else {
+      reader = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+    }
+    
+    String line = null;
+    StringBuilder responseBody = new StringBuilder();
+    while ((line = reader.readLine()) != null) {
+      responseBody.append(line);
+    }
+    
+    // 응답 결과(프로필을 JSON으로 응답) -> UserDto 객체
+    JSONObject obj = new JSONObject(responseBody.toString());
+    JSONObject response = obj.getJSONObject("response");
+    UserDto user = UserDto.builder()
+                    .email(response.getString("email"))
+                    .name(response.getString("name"))
+                    .gender(response.getString("gender"))
+                    .mobile(response.getString("mobile"))
+                    .build();
+    
+    return user;
     
   }
   
