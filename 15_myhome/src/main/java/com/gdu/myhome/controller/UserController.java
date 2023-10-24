@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -101,5 +102,21 @@ public class UserController {
   public void leave(HttpServletRequest request, HttpServletResponse response) {
     userService.leave(request, response);
   }
+  
+  @GetMapping("/active.form")
+  public String activeForm() {
+    return "user/active";
+  }
+  
+  @GetMapping("/active.do")
+  public void active(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+    userService.active(session, request, response);
+  }
+  
+  
+  
+  
+  
+  
   
 }
