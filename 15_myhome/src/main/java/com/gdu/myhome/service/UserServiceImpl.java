@@ -239,6 +239,28 @@ public class UserServiceImpl implements UserService {
     }
     
   }
+
+  @Override
+  public void naverLogin(HttpServletRequest request, HttpServletResponse response, UserDto naverProfile) throws Exception {
+    
+    String email = naverProfile.getEmail();
+    UserDto user = userMapper.getUser(Map.of("email", email));
+    
+    if(user != null) {
+      request.getSession().setAttribute("user", user);
+      userMapper.insertAccess(email);
+    } else {
+      response.setContentType("text/html; charset=UTF-8");
+      PrintWriter out = response.getWriter();
+      out.println("<script>");
+      out.println("alert('일치하는 회원 정보가 없습니다.')");
+      out.println("location.href='" + request.getContextPath() + "/main.do'");
+      out.println("</script>");
+      out.flush();
+      out.close();
+    }
+    
+  }
   
   @Override
   public void logout(HttpServletRequest request, HttpServletResponse response) {
