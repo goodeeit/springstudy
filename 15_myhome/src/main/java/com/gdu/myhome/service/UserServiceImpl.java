@@ -99,8 +99,6 @@ public class UserServiceImpl implements UserService {
     sb.append("&redirect_uri=").append(redirect_uri);
     sb.append("&state=").append(state);
     
-    request.getSession().setAttribute("state", state);
-    
     return sb.toString();
     
   }
@@ -193,6 +191,11 @@ public class UserServiceImpl implements UserService {
     
     return user;
     
+  }
+  
+  @Override
+  public UserDto getUser(String email) {
+    return userMapper.getUser(Map.of("email", email));
   }
   
   @Override
@@ -459,6 +462,7 @@ public class UserServiceImpl implements UserService {
     }
     
   }
+
   
 }
 
