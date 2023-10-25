@@ -34,7 +34,7 @@ public class FreeController {
   
   @GetMapping("/list.do")
   public String list(HttpServletRequest request, Model model) {
-    
+    freeService.loadFreeList(request, model);
     return "free/list";
   }
   

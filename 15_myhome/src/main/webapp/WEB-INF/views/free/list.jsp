@@ -13,7 +13,46 @@
 <div>
 
   <div><a href="${contextPath}/free/write.form">새글작성</a></div>
+  
+  <hr>
+  
+  <div>
+    <table border="1">
+      <tbody>
+        <c:forEach items="${freeList}" var="free">
+          <tr>
+            <td></td>
+            <td>${free.email}</td>
+            <td>${free.contents}</td>
+            <td>${free.createdAt}</td>
+          </tr>        
+        </c:forEach>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">${paging}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
 </div>
+
+<script>
+
+  fnAddResult();
+
+  const fnAddResult = () => {
+	  let addResult = '${addResult}';
+	  if(addResult !== ''){
+		  if(addResult === '1'){
+			  alert('게시글이 등록되었습니다.');
+		  } else {
+			  alert('게시글이 등록되지 않았습니다.');
+		  }
+	  }
+  }
+
+</script>
 
 <%@ include file="../layout/footer.jsp" %>

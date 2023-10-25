@@ -1,5 +1,9 @@
 package com.gdu.myhome.service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
@@ -34,5 +38,39 @@ public class FreeServiceImpl implements FreeService {
     return freeMapper.insertFree(free);
     
   }
+
+  @Override
+  public void loadFreeList(HttpServletRequest request, Model model) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    
+    int display = 10;
+    
+    int total = freeMapper.getFreeCount();
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<FreeDto> freeList = freeMapper.getFreeList(map);
+    
+    model.addAttribute("freeList", freeList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/free/list.do"));
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
 }
