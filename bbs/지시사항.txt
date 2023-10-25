@@ -1,0 +1,36 @@
+스스로 준비하기
+프로젝트 실행 후 index.jsp 열리는지 확인이 목표
+
+프로젝트명 : bbs
+기본패키지 : com.gdu.bbs
+
+src/main/java
+  AppConfig.java
+  MvcController.java
+  BbsMapper.java
+  BbsDto.java
+  MyLogbackLayout.java
+  BbsService.java
+  BbsServiceImpl.java
+  MyPageUtils.java
+
+src/main/resources
+  mybatis
+    config
+      mybatis-config.xml
+    mapper
+      bbsMapper.xml
+  application.properties
+  log4jdbc.log4j2.properties
+  logback.xml
+
+src/main/webapp
+  resources
+    sql
+      bbs.sql
+  WEB-INF
+    views
+      index.jsp
+    web.xml
+
+pom.xml
