@@ -15,4 +15,6 @@ public interface FreeMapper {
   public int updateGroupOrder(FreeDto free);
   public int insertReply(FreeDto free);
   public int deleteFree(int freeNo);
+  public int getSearchCount(Map<String, Object> map);
+  public List<FreeDto> getSearchList(Map<String, Object> map);
 }

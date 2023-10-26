@@ -1,5 +1,6 @@
 package com.gdu.myhome.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -111,22 +112,29 @@ public class FreeServiceImpl implements FreeService {
     String column = request.getParameter("column");
     String query = request.getParameter("query");
     
-    검색결과개수구하기
+    Map<String, Object> map = new HashMap<>();
+    map.put("column", column);
+    map.put("query", query);
     
+    int total = freeMapper.getSearchCount(map);
     
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    String strPage = opt.orElse("1");
+    int page = Integer.parseInt(strPage);
+    
+    int display = 10;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    map.put("begin", myPageUtils.getBegin());
+    map.put("end", myPageUtils.getEnd());
+    
+    List<FreeDto> freeList = freeMapper.getSearchList(map);
+    
+    model.addAttribute("freeList", freeList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/free/list.do"));
+    model.addAttribute("beginNo", total - (page - 1) * display);
     
   }
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
 }
