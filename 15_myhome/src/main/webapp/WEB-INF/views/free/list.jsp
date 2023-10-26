@@ -31,9 +31,20 @@
           <tr>
             <td>${beginNo - vs.index}</td>
             <td>${free.email}</td>
-            <td>${free.contents}</td>
+            <td>
+              ${free.contents}
+              <!-- 댓글작성버튼 -->
+              <button type="button">댓글</button>
+            </td>
             <td>${free.createdAt}</td>
-          </tr>        
+          </tr>
+          <tr>
+            <td colspan="4">
+              <form>
+              작성자/내용/원글3종
+              </form>
+            </td>
+          </tr>
         </c:forEach>
       </tbody>
       <tfoot>

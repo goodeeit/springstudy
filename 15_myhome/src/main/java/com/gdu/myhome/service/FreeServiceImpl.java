@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.gdu.myhome.dao.FreeMapper;
@@ -16,6 +17,7 @@ import com.gdu.myhome.util.MySecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class FreeServiceImpl implements FreeService {
@@ -39,6 +41,7 @@ public class FreeServiceImpl implements FreeService {
     
   }
 
+  @Transactional(readOnly=true)
   @Override
   public void loadFreeList(HttpServletRequest request, Model model) {
     
@@ -62,10 +65,42 @@ public class FreeServiceImpl implements FreeService {
     
   }
   
+  @Override
+  public int addReply(HttpServletRequest request) {
+    
+    // 요청 파라미터(댓글 작성 화면에서 받아오는 정보들)
+    // 댓글 정보(EMAIL, CONTENTS)
+    // 원글 정보(DEPTH, GROUP_NO, GROUP_ORDER)
+    String email = request.getParameter("email");
+    String contents = request.getParameter("contents");
+    int depth = Integer.parseInt(request.getParameter("depth"));
+    int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+    int groupOrder = Integer.parseInt(request.getParameter("groupOrder"));
+    
+    // 원글DTO 
+    // 기존댓글업데이트(원글DTO)
+    FreeDto free = FreeDto.builder()
+                    .groupNo(groupNo)
+                    .groupOrder(groupOrder)
+                    .build();
+    freeMapper.updateGroupOrder(free);
+    
+    // 댓글DTO
+    // 댓글삽입(댓글DTO)
+    FreeDto reply = FreeDto.builder()
+                      .email(email)
+                      .contents(contents)
+                      .depth(depth + 1)
+                      .groupNo(groupNo)
+                      .groupOrder(groupOrder + 1)
+                      .build();
+    int addReplyResult = freeMapper.insertReply(reply);
+    
+    return addReplyResult;
+    
+  }
   
-  
-  
-  
+
   
   
   
