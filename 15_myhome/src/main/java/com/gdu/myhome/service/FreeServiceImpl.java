@@ -100,7 +100,10 @@ public class FreeServiceImpl implements FreeService {
     
   }
   
-
+  @Override
+  public int removeFree(int freeNo) {
+    return freeMapper.deleteFree(freeNo);
+  }
   
   
   

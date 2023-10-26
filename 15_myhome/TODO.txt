@@ -6,7 +6,7 @@ Free - TODO List
 
 3. 계층형 정렬 처리
 
-4. 삭제 - status 값을 0으로 없데이트
+4. 삭제 - status 값을 0으로 업데이트
 
 
 

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.myhome.service.FreeService;
@@ -45,8 +46,11 @@ public class FreeController {
     return "redirect:/free/list.do";
   }
   
-  
-  
-  
+  @PostMapping("/remove.do")
+  public String remove(@RequestParam(value="freeNo") int freeNo, RedirectAttributes redirectAttributes) {
+    int removeResult = freeService.removeFree(freeNo);
+    redirectAttributes.addFlashAttribute("removeResult", removeResult);
+    return "redirect:/free/list.do";
+  }
   
 }
