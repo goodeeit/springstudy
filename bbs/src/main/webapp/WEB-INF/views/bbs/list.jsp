@@ -33,7 +33,7 @@
     */
     $('.bbs').click((ev) => {
     	// 클릭한 대상 : 이벤트 대상 (이벤트 객체의 target 속성)
-      let bbsNo = $(ev.target).data('bbs_no');
+      let bbsNo = $(ev.target).parent().data('bbs_no');
       alert(bbsNo);
     })
   </script>
