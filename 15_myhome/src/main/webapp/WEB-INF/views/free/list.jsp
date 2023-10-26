@@ -18,7 +18,11 @@
 
 <div>
 
-  <div><a href="${contextPath}/free/write.form">새글작성</a></div>
+  <div>
+    <a href="${contextPath}/free/write.form">
+      <button type="button" class="btn btn-primary">새글작성</button>
+    </a>
+  </div>
   
   <hr>
   
@@ -62,11 +66,9 @@
             </c:if>
             <!-- 삭제된 게시글 -->
             <c:if test="${free.status == 0}">
-              <tr>
-                <td colspan="3">
-                  삭제된 게시글입니다.
-                </td>
-              </tr>
+              <td colspan="3">
+                삭제된 게시글입니다.
+              </td>
             </c:if>
           </tr>
           <tr class="blind write_tr">
@@ -97,6 +99,16 @@
         </tr>
       </tfoot>
     </table>
+    <div>
+      <form method="get" action="${contextPath}/free/search.do">
+        <select name="column">
+          <option value="EMAIL">작성자</option>
+          <option value="CONTENTS">내용</option>
+        </select>
+        <input type="text" name="query" placeholder="검색어 입력">
+        <button type="submit" class="btn btn-outline-primary">검색</button>
+      </form>
+    </div>
   </div>
 
 </div>
@@ -119,6 +131,8 @@
 		  if('${sessionScope.user}' === ''){
 			  if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
 				  location.href = '${contextPath}/user/login.form';
+			  } else {
+				  return;
 			  }
 		  }
 		  // 화살표 함수는 this 객체가 지원되지 않기 때문에
@@ -127,7 +141,7 @@
 		  // class="blind"를 가진 상태 : 숨김 상태이므로 열어 준다.
 		  if(writeTr.hasClass('blind')){
 			  $('.write_tr').addClass('blind');  // 모든 작성화면 닫기
-			  writeTr.removeClass('blind');    // 현재 작성화면 열기
+			  writeTr.removeClass('blind');      // 현재 작성화면 열기
 		  }
 		  // class="blind"가 없는 상태 : 이미 열린 상태이므로 다시 숨긴다.
 		  else {

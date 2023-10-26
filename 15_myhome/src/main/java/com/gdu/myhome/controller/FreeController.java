@@ -53,4 +53,10 @@ public class FreeController {
     return "redirect:/free/list.do";
   }
   
+  @GetMapping("/search.do")
+  public String search(HttpServletRequest request, Model model) {
+    freeService.loadSearchList(request, model);
+    return "free/list";
+  }
+  
 }

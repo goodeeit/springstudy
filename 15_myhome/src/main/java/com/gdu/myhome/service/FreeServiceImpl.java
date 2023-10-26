@@ -105,6 +105,23 @@ public class FreeServiceImpl implements FreeService {
     return freeMapper.deleteFree(freeNo);
   }
   
+  @Override
+  public void loadSearchList(HttpServletRequest request, Model model) {
+  
+    String column = request.getParameter("column");
+    String query = request.getParameter("query");
+    
+    검색결과개수구하기
+    
+    
+    
+  }
+
+  
+  
+  
+  
+  
   
   
   
