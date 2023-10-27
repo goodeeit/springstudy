@@ -44,6 +44,7 @@
   <div class="paging">${paging}</div>
   
   <script>
+  
     /*
     $('.bbs').click(function(){
     	// 클릭한 대상 : 이벤트 대상 (this)
