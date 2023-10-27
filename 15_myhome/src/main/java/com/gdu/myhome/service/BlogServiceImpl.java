@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.gdu.myhome.dao.BlogMapper;
+import com.gdu.myhome.dto.BlogDto;
 import com.gdu.myhome.util.MyFileUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class BlogServiceImpl implements BlogService {
 
+  private final BlogMapper blogMapper;
   private final MyFileUtils myFileUtils;
   
   @Override
@@ -62,9 +65,18 @@ public class BlogServiceImpl implements BlogService {
     String title = request.getParameter("title");
     String contents = request.getParameter("contents");
     int userNo = Integer.parseInt(request.getParameter("userNo"));
+    String ip = request.getRemoteAddr();
     
+    BlogDto blog = BlogDto.builder()
+                    .title(title)
+                    .contents(contents)
+                    .userNo(userNo)
+                    .ip(ip)
+                    .build();
     
-    return 0;
+    int addResult = blogMapper.insertBlog(blog);
+    
+    return addResult;
     
   }
   

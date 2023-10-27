@@ -42,8 +42,9 @@ public class BlogController {
   
   @PostMapping("/addBlog.do")
   public String addBlog(HttpServletRequest request, RedirectAttributes redirectAttributes) {
-    blogService.addBlog(request);
-    return "";
+    int addResult = blogService.addBlog(request);
+    redirectAttributes.addFlashAttribute("addResult", addResult);
+    return "redirect:/blog/list.do";
   }
   
   
