@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyFileUtil {
-
+  
   // 파일이 저장될 경로 반환하기
   public String getPath() {
     
