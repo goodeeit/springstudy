@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.myhome.service.BlogService;
 
@@ -34,9 +36,17 @@ public class BlogController {
   
   @ResponseBody
   @PostMapping(value="/imageUpload.do", produces="application/json")
-  public Map<String, Object> imageUpload() {
-    
+  public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
+    return blogService.imageUpload(multipartRequest);
   }
+  
+  @PostMapping("/addBlog.do")
+  public String addBlog(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    blogService.addBlog(request);
+    return "";
+  }
+  
+  
   
   
   
