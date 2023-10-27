@@ -54,7 +54,10 @@ public class BbsServiceImpl implements BbsService {
     return bbs;
   }
   
-  
+  @Override
+  public int addBbs(BbsDto bbs) {
+    return bbsMapper.insertBbs(bbs);    
+  }
   
   
   
