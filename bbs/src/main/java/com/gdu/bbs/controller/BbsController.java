@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.bbs.dto.BbsDto;
@@ -45,10 +44,21 @@ public class BbsController {
     return "redirect:/list.do";
   }
   
+  // update는 redirectAttribute에 저장한 뒤 redirect한다.
+  @PostMapping("/modify.do")
+  public String modify(BbsDto bbs, RedirectAttributes attr) {
+    int modifyResult = bbsService.modifyBbs(bbs);
+    attr.addFlashAttribute("modifyResult", modifyResult);
+    return "redirect:/detail.do?bbsNo=" + bbs.getBbsNo();
+  }
   
-  
-  
-  
-  
+  // delete는 redirectAttribute에 저장한 뒤 redirect한다.
+  @PostMapping("/remove.do")
+  public String remove(@RequestParam(value="bbsNo", required=false, defaultValue="0") int bbsNo
+                     , RedirectAttributes attr) {
+    int removeResult = bbsService.removeBbs(bbsNo);
+    attr.addFlashAttribute("removeResult", removeResult);
+    return "redirect:/list.do";
+  }
   
 }

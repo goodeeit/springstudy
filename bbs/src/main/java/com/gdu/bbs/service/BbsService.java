@@ -10,4 +10,6 @@ public interface BbsService {
   public void loadBbsList(HttpServletRequest request, Model model);
   public BbsDto getBbs(int bbsNo);
   public int addBbs(BbsDto bbs);
+  public int modifyBbs(BbsDto bbs);
+  public int removeBbs(int bbsNo);
 }

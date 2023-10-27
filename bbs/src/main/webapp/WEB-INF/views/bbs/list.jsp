@@ -77,6 +77,15 @@
     	}
     }
     
+    const removeResult = '${removeResult}';  // '', '1', '0'
+    if(removeResult !== ''){
+    	if(removeResult === '1'){
+    		alert('삭제 성공');
+    	} else {
+    		alert('삭제 실패');
+    	}
+    }
+    
   </script>
   
 </body>
