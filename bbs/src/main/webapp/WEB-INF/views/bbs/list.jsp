@@ -13,6 +13,15 @@
 
   <h1>목록보기</h1>
   
+  <div>
+    <form method="post" action="${contextPath}/add.do">
+      <div><input type="text" name="editor" id="editor" placeholder="작성자"></div>
+      <div><input type="text" name="title" id="title" placeholder="제목"></div>
+      <div><input type="text" name="contents" id="contents" placeholder="내용"></div>
+      <div><button type="submit">등록하기</button></div>
+    </form>
+  </div>
+  
   <h3>전체개수 : ${total}</h3>
   <c:forEach items="${bbsList}" var="bbs">
     <div class="bbs" data-bbs_no="${bbs.bbsNo}">
@@ -34,7 +43,7 @@
     $('.bbs').click((ev) => {
     	// 클릭한 대상 : 이벤트 대상 (이벤트 객체의 target 속성)
       let bbsNo = $(ev.target).parent().data('bbs_no');
-      alert(bbsNo);
+      location.href = '${contextPath}/detail.do?bbsNo=' + bbsNo;
     })
   </script>
   

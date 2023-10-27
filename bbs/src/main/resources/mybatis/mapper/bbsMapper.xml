@@ -19,6 +19,15 @@
       FROM BBS_T
   </select>
 
+  <!-- 상세 보기(전달 int bbsNo, BbsDto 반환) -->
+  <select id="getBbs" parameterType="int" resultType="BbsDto">
+    SELECT BBS_NO, EDITOR, TITLE, CONTENTS, CREATED_AT, MODIFIED_AT
+      FROM BBS_T
+     WHERE BBS_NO = #{bbsNo}
+  </select>
+
+
+
 
 
 

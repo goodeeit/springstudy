@@ -11,8 +11,14 @@
 </head>
 <body>
 
-  <h1>Hello World</h1>
-  <a href="${contextPath}/list.do">게시판</a>
+  <h1>상세보기</h1>
+  
+  <div>${bbs.bbsNo}</div>
+  <div>${bbs.editor}</div>
+  <div>${bbs.title}</div>
+  <div>${bbs.contents}</div>
+  <div>${bbs.createdAt}</div>
+  <div>${bbs.modifiedAt}</div>
 
 </body>
 </html>

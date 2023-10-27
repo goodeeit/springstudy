@@ -48,4 +48,16 @@ public class BbsServiceImpl implements BbsService {
     
   }
   
+  @Override
+  public BbsDto getBbs(int bbsNo) {
+    BbsDto bbs = bbsMapper.getBbs(bbsNo);
+    return bbs;
+  }
+  
+  
+  
+  
+  
+  
+  
 }
