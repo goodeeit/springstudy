@@ -162,6 +162,34 @@ COMMIT;
 
 -- 1. 목록 (사용자 - 블로그 조인)
 
+-- 부모 : 일대다 관계에서 일(PK, UNIQUE) - 사용자
+-- 자식 : 일대다 관계에서 다(FK)         - 블로그
+
+-- 내부 : 사용자와 블로그에 모두 존재하는 데이터를 조인하는 방식
+-- 외부 : 사용자가 없는 블로그도 모두 조인하는 방식 (불가능)
+--        블로그가 없는 사용자도 모두 조인하는 방식 (필요 없는 방식)
+
+SELECT A.BLOG_NO, A.TITLE, A.CONTENTS, A.USER_NO, A.HIT, A.IP, A.CREATED_AT, A.MODIFIED_AT, A.EMAIL
+  FROM (SELECT ROW_NUMBER() OVER(ORDER BY B.BLOG_NO DESC) AS RN, B.BLOG_NO, B.TITLE, B.CONTENTS, B.USER_NO, B.HIT, B.IP, B.CREATED_AT, B.MODIFIED_AT, U.EMAIL
+          FROM USER_T U INNER JOIN BLOG_T B
+            ON B.USER_NO = U.USER_NO) A
+ WHERE A.RN BETWEEN 1 AND 10;
+
+-- 2. 상세
+
+-- 1) 조회수 증가
+UPDATE BLOG_T
+   SET HIT = HIT + 1
+ WHERE BLOG_NO = 1;
+
+-- 2) 블로그 상세 정보 조회
+SELECT B.BLOG_NO, B.TITLE, B.CONTENTS, B.HIT, B.IP, B.CREATED_AT, B.MODIFIED_AT, U.USER_NO, U.EMAIL, U.NAME
+  FROM USER_T U, BLOG_T B
+ WHERE U.USER_NO = B.USER_NO
+   AND B.BLOG_NO = 1;
+
+-- 3) 댓글 목록
+
 
 
 

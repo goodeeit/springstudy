@@ -15,4 +15,9 @@ public interface BlogMapper {
   public List<BlogImageDto> getBlogImageInYesterday();
   public int getBlogCount();
   public List<BlogDto> getBlogList(Map<String, Object> map);
+  public int updateHit(int blogNo);
+  public BlogDto getBlog(int blogNo);
+  
+  
+  
 }

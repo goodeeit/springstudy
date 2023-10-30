@@ -166,15 +166,14 @@ public class BlogServiceImpl implements BlogService {
     
   }
   
+  @Override
+  public int increseHit(int blogNo) {
+    return blogMapper.updateHit(blogNo);
+  }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  @Override
+  public BlogDto getBlog(int blogNo) {
+    return blogMapper.getBlog(blogNo);
+  }
   
 }

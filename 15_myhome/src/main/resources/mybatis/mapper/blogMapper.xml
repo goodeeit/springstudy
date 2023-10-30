@@ -91,7 +91,18 @@
      WHERE A.RN BETWEEN #{begin} AND #{end}
   </select>
   
+  <update id="updateHit" parameterType="int">
+    UPDATE BLOG_T
+       SET HIT = HIT + 1
+     WHERE BLOG_NO = #{blogNo}  
+  </update>
   
+  <select id="getBlog" parameterType="int" resultMap="BlogMap">
+    SELECT B.BLOG_NO, B.TITLE, B.CONTENTS, B.HIT, B.IP, B.CREATED_AT, B.MODIFIED_AT, U.USER_NO, U.EMAIL, U.NAME
+      FROM USER_T U, BLOG_T B
+     WHERE U.USER_NO = B.USER_NO
+       AND B.BLOG_NO = #{blogNo}
+  </select>
   
   
   
