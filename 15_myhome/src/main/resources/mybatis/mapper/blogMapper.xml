@@ -52,6 +52,20 @@
      WHERE IMAGE_PATH = '/blog/' || TO_CHAR(SYSDATE - 1, 'YYYY/MM/DD')
   </select>
   
+  <select id="getBlogList" parameterType="Map" resultType="BlogDto">
+    SELECT A.BLOG_NO, A.TITLE, A.CONTENTS, A.USER_NO, A.HIT, A.IP, A.CREATED_AT, A.MODIFIED_AT, A.EMAIL
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY B.BLOG_NO DESC) AS RN, B.BLOG_NO, B.TITLE, B.CONTENTS, B.USER_NO, B.HIT, B.IP, B.CREATED_AT, B.MODIFIED_AT, U.EMAIL
+              FROM USER_T U INNER JOIN BLOG_T B
+                ON B.USER_NO = U.USER_NO) A
+     WHERE A.RN BETWEEN #{begin} AND #{end}
+  </select>
+  
+  
+  
+  
+  
+  
+  
   
   
   

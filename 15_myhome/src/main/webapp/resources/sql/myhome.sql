@@ -157,7 +157,16 @@ INSERT INTO FREE_T VALUES (FREE_SEQ.NEXTVAL, 'user1@naver.com', '내용19', SYST
 INSERT INTO FREE_T VALUES (FREE_SEQ.NEXTVAL, 'user1@naver.com', '내용20', SYSTIMESTAMP, 1, 0, FREE_SEQ.CURRVAL, 0);
 COMMIT;
 
--- 쿼리 테스트
+
+-- 블로그 쿼리 테스트
+
+-- 1. 목록 (사용자 - 블로그 조인)
+
+
+
+
+
+-- 계층 쿼리 테스트
 
 -- 1. 목록 (??? 순으로 1 ~ 10)
 
@@ -192,7 +201,7 @@ SELECT FREE_NO, EMAIL, CONTENTS, CREATED_AT, STATUS, DEPTH, GROUP_NO, GROUP_ORDE
 
 
 
--- 쿼리 테스트
+-- 사용자 쿼리 테스트
 
 -- 1. 로그인 할 때(이메일, 비밀번호 입력)
 -- 1) 정상 회원
