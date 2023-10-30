@@ -90,25 +90,25 @@
         // 응답
         dataType: 'json',
         success: (resData) => {  // resData = {"commentList": [], "paging": "<div>...</div>"}
-        	$('#comment_list').empty();
-        	$('#paging').empty();
+          $('#comment_list').empty();
+          $('#paging').empty();
           if(resData.commentList.length === 0){
-        	  $('#comment_list').text('첫 번째 댓글의 주인공이 되어 보세요');
-        	  $('#paging').text('');
-        	  return;
+            $('#comment_list').text('첫 번째 댓글의 주인공이 되어 보세요');
+            $('#paging').text('');
+            return;
           }
           $.each(resData.commentList, (i, c) => {
-        	  let str = '';
-        	  if(c.depth === 0){
-        		  str += '<div style="width: 100%; border-bottom: 1px solid gray;">';
-        	  } else {
-        		  str += '<div style="width: 100%; border-bottom: 1px solid gray; margin-left: 32px;">';
-        	  }
-        	  str += '  <div>' + c.userDto.name + '</div>';
-        	  str += '  <div>' + c.contents + '</div>';
-        	  str += '  <div style="font-size: 12px;">' + c.createdAt + '</div>';
-        	  str += '</div>';
-        	  $('#comment_list').append(str);
+            let str = '';
+            if(c.depth === 0){
+              str += '<div style="width: 100%; border-bottom: 1px solid gray;">';
+            } else {
+              str += '<div style="width: 100%; border-bottom: 1px solid gray; margin-left: 32px;">';
+            }
+            str += '  <div>' + c.userDto.name + '</div>';
+            str += '  <div>' + c.contents + '</div>';
+            str += '  <div style="font-size: 12px;">' + c.createdAt + '</div>';
+            str += '</div>';
+            $('#comment_list').append(str);
           })
           $('#paging').append(resData.paging);  // fnAjaxPaging() 함수가 호출되는 곳
         }
@@ -116,8 +116,8 @@
     }
     
     const fnAjaxPaging = (p) => {
-    	page = p;
-    	fnCommentList();
+      page = p;
+      fnCommentList();
     }
     
     fnRequiredLogin();
