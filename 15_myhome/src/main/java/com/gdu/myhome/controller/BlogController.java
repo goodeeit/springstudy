@@ -68,7 +68,11 @@ public class BlogController {
     return "blog/detail";
   }
     
-  
+  @ResponseBody
+  @PostMapping(value="/addComment.do", produces="application/json")
+  public Map<String, Object> addComment(HttpServletRequest request) {
+    return blogService.addComment(request);
+  }
   
   
   

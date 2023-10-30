@@ -17,4 +17,5 @@ public interface BlogService {
   public int increseHit(int blogNo);
   public BlogDto getBlog(int blogNo);
   
+  public Map<String, Object> addComment(HttpServletRequest request);
 }

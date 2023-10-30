@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gdu.myhome.dto.BlogDto;
 import com.gdu.myhome.dto.BlogImageDto;
+import com.gdu.myhome.dto.CommentDto;
 
 @Mapper
 public interface BlogMapper {
@@ -18,6 +19,7 @@ public interface BlogMapper {
   public int updateHit(int blogNo);
   public BlogDto getBlog(int blogNo);
   
+  public int insertComment(CommentDto comment);
   
   
 }

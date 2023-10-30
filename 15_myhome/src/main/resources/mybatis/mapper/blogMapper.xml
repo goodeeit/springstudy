@@ -104,7 +104,27 @@
        AND B.BLOG_NO = #{blogNo}
   </select>
   
-  
+  <insert id="insertComment" parameterType="CommentDto">
+    INSERT INTO COMMENT_T (
+        COMMENT_NO
+      , CONTENTS
+      , USER_NO
+      , BLOG_NO
+      , CREATED_AT
+      , STATUS
+      , DEPTH
+      , GROUP_NO
+    ) VALUES (
+        COMMENT_SEQ.NEXTVAL
+      , #{contents}
+      , #{userNo}
+      , #{blogNo}
+      , TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS')
+      , 1
+      , 0
+      , COMMENT_SEQ.CURRVAL
+    )
+  </insert>
   
   
   
