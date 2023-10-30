@@ -38,53 +38,53 @@
     </form>
     <script>
     
-      const fnRequiredLogin = () => {    	  
+      const fnRequiredLogin = () => {        
         // 로그인을 안하고 작성을 시도하면 로그인 페이지로 보내기
         $('#contents, #btn_comment_add').click(() => {
-      	  if('${sessionScope.user}' === ''){
-      		  if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-      			  location.href = '${contextPath}/user/login.form';
-      		  } else {
-      			  return;
-      		  }
-      	  }
+          if('${sessionScope.user}' === ''){
+            if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+              location.href = '${contextPath}/user/login.form';
+            } else {
+              return;
+            }
+          }
         })
       }
       
       const fnCommentAdd = () => {
-    	  $('#btn_comment_add').click(() => {
-    		  $.ajax({
-    			  // 요청
-    			  type: 'post',
-    			  url: '${contextPath}/blog/addComment.do',
-    			  data: $('#frm_comment_add').serialize(),
-    			  // 응답
-    			  dataType: 'json',
-    			  success: (resData) => {  // {"addCommentResult": 1}
-    				  if(resData.addCommentResult === 1){
-    					  alert('댓글이 등록되었습니다.');
-    					  fnCommentList();
-    				  }
-    			  }
-    		  })
-    	  })
+        $('#btn_comment_add').click(() => {
+          $.ajax({
+            // 요청
+            type: 'post',
+            url: '${contextPath}/blog/addComment.do',
+            data: $('#frm_comment_add').serialize(),
+            // 응답
+            dataType: 'json',
+            success: (resData) => {  // {"addCommentResult": 1}
+              if(resData.addCommentResult === 1){
+                alert('댓글이 등록되었습니다.');
+                fnCommentList();
+              }
+            }
+          })
+        })
       }
       
       // 전역 변수
       var page = 1;
       
       const fnCommentList = () => {
-    	  $.ajax({
-    		  // 요청
-    		  type: 'get',
-    		  url: '${contextPath}/blog/commentList.do',
-    		  data: 'page=' + page + '&blogNo=${blog.blogNo}',
-    		  // 응답
-    		  dataType: 'json',
-    		  success: (resData) => {  // resData = {"commentList": [], "paging": "<div>...</div>"}
-    			  console.log(resData);
-    		  }
-    	  })
+        $.ajax({
+          // 요청
+          type: 'get',
+          url: '${contextPath}/blog/commentList.do',
+          data: 'page=' + page + '&blogNo=${blog.blogNo}',
+          // 응답
+          dataType: 'json',
+          success: (resData) => {  // resData = {"commentList": [], "paging": "<div>...</div>"}
+            console.log(resData);
+          }
+        })
       }
       
       fnRequiredLogin();
