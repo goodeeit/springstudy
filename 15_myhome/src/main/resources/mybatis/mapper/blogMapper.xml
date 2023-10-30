@@ -5,6 +5,31 @@
 
 <mapper namespace="com.gdu.myhome.dao.BlogMapper">
 
+  <resultMap type="BlogDto" id="BlogMap">
+    <id     column="BLOG_NO"     property="blogNo" />
+    <result column="TITLE"       property="title" />
+    <result column="CONTENTS"    property="contents" />
+    <association javaType="UserDto"      property="userDto">
+      <id        column="USER_NO"        property="userNo"/>
+      <result    column="PW"             property="pw" />
+      <result    column="NAME"           property="name" />
+      <result    column="GENDER"         property="gender" />
+      <result    column="MOBILE"         property="mobile" />
+      <result    column="POSTCODE"       property="postcode" />
+      <result    column="ROAD_ADDRESS"   property="roadAddress" />
+      <result    column="JIBUN_ADDRESS"  property="jibunAddress" />
+      <result    column="DETAIL_ADDRESS" property="detailAddress" />
+      <result    column="AGREE"          property="agree" />
+      <result    column="STATE"          property="state" />
+      <result    column="PW_MODIFIED_AT" property="pwModifiedAt" />
+      <result    column="JOINED_AT"      property="joinedAt" />
+    </association>
+    <result column="HIT"         property="hit" />
+    <result column="IP"          property="ip" />
+    <result column="CREATED_AT"  property="createdAt" />
+    <result column="MODIFIED_AT" property="modifiedAt" />
+  </resultMap>
+
   <!--
     처리 순서
     1. BLOG_SEQ.NEXTVAL 값을 먼저(order="BEFORE") 파라미터로 전달된 BlogDto의 blogNo에 저장(keyProperty="blogNo")한다.
@@ -50,6 +75,11 @@
     SELECT BLOG_NO, IMAGE_PATH, FILESYSTEM_NAME
       FROM BLOG_IMAGE_T
      WHERE IMAGE_PATH = '/blog/' || TO_CHAR(SYSDATE - 1, 'YYYY/MM/DD')
+  </select>
+  
+  <select id="getBlogCount" resultType="int">
+    SELECT COUNT(*)
+      FROM BLOG_T
   </select>
   
   <select id="getBlogList" parameterType="Map" resultType="BlogDto">
