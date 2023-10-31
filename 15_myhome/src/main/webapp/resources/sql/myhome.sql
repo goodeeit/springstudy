@@ -111,7 +111,7 @@ CREATE TABLE BLOG_IMAGE_T (
 
 -- 블로그 댓글(계층형-1차, 댓글 작성 가능/대댓글 작성 불가능)
 CREATE TABLE COMMENT_T (
-    COMMENT_NO NUMBER NOT NULL,
+    COMMENT_NO NUMBER              NOT NULL,
     CONTENTS   VARCHAR2(4000 BYTE) NULL,
     USER_NO    NUMBER              NULL,
     BLOG_NO    NUMBER              NOT NULL,

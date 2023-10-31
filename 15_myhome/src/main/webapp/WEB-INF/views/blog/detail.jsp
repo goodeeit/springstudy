@@ -37,19 +37,19 @@
     var frmBtn = $('#frm_btn');
   
     const fnEditBlog = () => {
-    	$('#btn_edit').click(() => {
-    		frmBtn.attr('action', '${contextPath}/blog/edit.form');
-    		frmBtn.submit();
-    	})
+      $('#btn_edit').click(() => {
+        frmBtn.attr('action', '${contextPath}/blog/edit.form');
+        frmBtn.submit();
+      })
     }
     
     const fnRemoveBlog = () => {
-    	$('#btn_remove').click(() => {
-    		if(confirm('블로그를 삭제하면 모든 댓글이 함께 삭제됩니다. 삭제할까요?')){
-    	    frmBtn.attr('action', '${contextPath}/blog/remove.do');
-    	    frmBtn.submit();    			
-    		}
-    	})
+      $('#btn_remove').click(() => {
+        if(confirm('블로그를 삭제하면 모든 댓글이 함께 삭제됩니다. 삭제할까요?')){
+          frmBtn.attr('action', '${contextPath}/blog/remove.do');
+          frmBtn.submit();          
+        }
+      })
     }
     
     fnEditBlog();
