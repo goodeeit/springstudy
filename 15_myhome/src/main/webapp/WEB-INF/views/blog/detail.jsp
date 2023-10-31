@@ -84,10 +84,9 @@
   <div id="paging"></div>
   
   <script>
-  
-    const fnRequiredLogin = () => {        
-      // 로그인을 안하고 작성을 시도하면 로그인 페이지로 보내기
-      $('#contents, #btn_comment_add').click(() => {
+    
+    const fnContentsClick = () => {
+    	$('#contents').click(() => {
         if('${sessionScope.user}' === ''){
           if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
             location.href = '${contextPath}/user/login.form';
@@ -95,11 +94,18 @@
             return;
           }
         }
-      })
+    	})
     }
-    
+  
     const fnCommentAdd = () => {
       $('#btn_comment_add').click(() => {
+        if('${sessionScope.user}' === ''){
+          if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+            location.href = '${contextPath}/user/login.form';
+          } else {
+            return;
+          }
+        }
         $.ajax({
           // 요청
           type: 'post',
@@ -257,7 +263,7 @@
       })
     }
     
-    fnRequiredLogin();
+    fnContentsClick();
     fnCommentAdd();
     fnCommentList();
     fnBlind();
@@ -284,9 +290,11 @@
           <button type="button" class="btn_add_reply">답글작성완료</button>
         </form>
       </div>
+      
+      // 댓글 작성자만 삭제
       <div>
         <input type="hidden" value="commentNo값">
-        <button type="button" class="btn_remove_comment">삭제</button>
+        <i class="fa-regular fa-circle-xmark ico_remove_comment"></i>
       </div>
       
     </div>

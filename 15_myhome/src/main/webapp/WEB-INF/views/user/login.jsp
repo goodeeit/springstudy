@@ -15,7 +15,7 @@
     width: 300px;
   }
 </style>
-
+  
   <div class="login_form_wrap center_wrap">
     <form method="post" action="${contextPath}/user/login.do">
       <div>
