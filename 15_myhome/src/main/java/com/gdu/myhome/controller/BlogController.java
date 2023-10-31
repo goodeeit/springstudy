@@ -103,4 +103,16 @@ public class BlogController {
     return blogService.loadCommentList(request);
   }
   
+  @ResponseBody
+  @PostMapping(value="/addCommentReply.do", produces="application/json")
+  public Map<String, Object> addCommentReply(HttpServletRequest request) {
+    return blogService.addCommentReply(request);
+  }
+  
 }
+
+
+
+
+
+

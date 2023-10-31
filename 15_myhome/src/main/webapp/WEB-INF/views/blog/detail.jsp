@@ -165,9 +165,40 @@
       fnCommentList();
     }
     
+    const fnCommentReplyAdd = () => {
+    	$(document).on('click', '.btn_add_reply', (ev) => {
+    		if('${sessionScope.user}' === ''){
+    			if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+    				location.href = '${contextPath}/user/login.form';
+    			} else {
+    				return;
+    			}
+    		}
+    		var frmAddReply = $(ev.target).closest('.frm_add_reply');
+    		$.ajax({
+    			// 요청
+    			type: 'post',
+    			url: '${contextPath}/blog/addCommentReply.do',
+    			data: frmAddReply.serialize(),
+    			// 응답
+    			dataType: 'json',
+    			success: (resData) => {  // resData = {"addCommentReplyResult": 1}
+    				if(resData.addCommentReplyResult === 1){
+    					alert('답글이 등록되었습니다.');
+    					fnCommentList();
+    					frmAddReply.find('textarea').val('');
+    				} else {
+    					alert('답글이 등록되지 않았습니다.');
+    				}
+    			}
+    		})
+    	})
+    }
+    
     fnRequiredLogin();
     fnCommentAdd();
     fnCommentList();
+    fnCommentReplyAdd();
     
     /*
     <div style="width: 100%; border-bottom: 1px solid gray;">
