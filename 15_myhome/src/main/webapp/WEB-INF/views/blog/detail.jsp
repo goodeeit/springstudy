@@ -86,7 +86,7 @@
   <script>
     
     const fnContentsClick = () => {
-    	$('#contents').click(() => {
+      $('#contents').click(() => {
         if('${sessionScope.user}' === ''){
           if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
             location.href = '${contextPath}/user/login.form';
@@ -94,7 +94,7 @@
             return;
           }
         }
-    	})
+      })
     }
   
     const fnCommentAdd = () => {
@@ -170,7 +170,7 @@
               str += '    </form>';
               str += '  </div>';
               /******************************************************************/
-              if('${sessionScope.user.userNo}' == c.userDto.userNo){            	  
+              if('${sessionScope.user.userNo}' == c.userDto.userNo){                
                 str += '  <div>';
                 str += '    <input type="hidden" value="' + c.commentNo + '">';
                 str += '    <i class="fa-regular fa-circle-xmark ico_remove_comment"></i>';
@@ -191,7 +191,7 @@
     }
     
     const fnBlind = () => {
-    	$(document).on('click', '.btn_open_reply', (ev) => {
+      $(document).on('click', '.btn_open_reply', (ev) => {
         if('${sessionScope.user}' === ''){
           if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
             location.href = '${contextPath}/user/login.form';
@@ -201,12 +201,12 @@
         }
         var blindTarget = $(ev.target).parent().next();
         if(blindTarget.hasClass('blind')){
-        	$('.frm_add_reply_wrap').addClass('blind');  // 모든 답글 입력화면 닫기
-        	blindTarget.removeClass('blind');            // 답글 입력화면 열기
+          $('.frm_add_reply_wrap').addClass('blind');  // 모든 답글 입력화면 닫기
+          blindTarget.removeClass('blind');            // 답글 입력화면 열기
         } else {
-        	blindTarget.addClass('blind');
+          blindTarget.addClass('blind');
         }
-    	})
+      })
     }
     
     const fnCommentReplyAdd = () => {
