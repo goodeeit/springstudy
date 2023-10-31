@@ -13,17 +13,17 @@
 <script>
   
   $(() => {
-	  fnNaverJoin();
+    fnNaverJoin();
   })
   
   const fnNaverJoin = () => {
-	  $('#frm_naver_join').submit((ev) => {
-		  if(!$('#service').is(':checked')){
-			  alert('이용약관에 동의하세요.');
-			  ev.preventDefault();
-			  return;
-		  }
-	  })
+    $('#frm_naver_join').submit((ev) => {
+      if(!$('#service').is(':checked')){
+        alert('이용약관에 동의하세요.');
+        ev.preventDefault();
+        return;
+      }
+    })
   }
   
 </script>

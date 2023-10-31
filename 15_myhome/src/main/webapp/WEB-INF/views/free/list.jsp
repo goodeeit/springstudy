@@ -116,38 +116,38 @@
 <script>
 
   const fnAddResult = () => {
-	  let addResult = '${addResult}';
-	  if(addResult !== ''){
-		  if(addResult === '1'){
-			  alert('게시글이 등록되었습니다.');
-		  } else {
-			  alert('게시글이 등록되지 않았습니다.');
-		  }
-	  }
+    let addResult = '${addResult}';
+    if(addResult !== ''){
+      if(addResult === '1'){
+        alert('게시글이 등록되었습니다.');
+      } else {
+        alert('게시글이 등록되지 않았습니다.');
+      }
+    }
   }
   
   const fnBlind = () => {
-	  $('.btn_reply').click((ev) => {
-		  if('${sessionScope.user}' === ''){
-			  if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-				  location.href = '${contextPath}/user/login.form';
-			  } else {
-				  return;
-			  }
-		  }
-		  // 화살표 함수는 this 객체가 지원되지 않기 때문에
-		  // 이벤트 대상을 "이벤트 객체"의 "target" 속성으로 처리한다.
-		  let writeTr = $(ev.target).closest('.list').next();
-		  // class="blind"를 가진 상태 : 숨김 상태이므로 열어 준다.
-		  if(writeTr.hasClass('blind')){
-			  $('.write_tr').addClass('blind');  // 모든 작성화면 닫기
-			  writeTr.removeClass('blind');      // 현재 작성화면 열기
-		  }
-		  // class="blind"가 없는 상태 : 이미 열린 상태이므로 다시 숨긴다.
-		  else {
-			  writeTr.addClass('blind');
-		  }
-	  })
+    $('.btn_reply').click((ev) => {
+      if('${sessionScope.user}' === ''){
+        if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+          location.href = '${contextPath}/user/login.form';
+        } else {
+          return;
+        }
+      }
+      // 화살표 함수는 this 객체가 지원되지 않기 때문에
+      // 이벤트 대상을 "이벤트 객체"의 "target" 속성으로 처리한다.
+      let writeTr = $(ev.target).closest('.list').next();
+      // class="blind"를 가진 상태 : 숨김 상태이므로 열어 준다.
+      if(writeTr.hasClass('blind')){
+        $('.write_tr').addClass('blind');  // 모든 작성화면 닫기
+        writeTr.removeClass('blind');      // 현재 작성화면 열기
+      }
+      // class="blind"가 없는 상태 : 이미 열린 상태이므로 다시 숨긴다.
+      else {
+        writeTr.addClass('blind');
+      }
+    })
   }
   
   const fnAddReplyResult = () => {
@@ -162,12 +162,12 @@
   }
 
   const fnRemove = () => {
-	  $('.frm_remove').submit((ev) => {
-		  if(!confirm('게시글을 삭제할까요?')){
-			  ev.preventDefault();
-			  return;
-		  }
-	  })
+    $('.frm_remove').submit((ev) => {
+      if(!confirm('게시글을 삭제할까요?')){
+        ev.preventDefault();
+        return;
+      }
+    })
   }
   
   const fnRemoveResult = () => {

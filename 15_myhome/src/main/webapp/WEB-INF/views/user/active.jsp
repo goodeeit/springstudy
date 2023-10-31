@@ -28,9 +28,9 @@
   </div>
   <script>
     const fnActive = () => {
-    	$('#btn_active').click(() => {
-    		location.href = '${contextPath}/user/active.do';
-    	})
+      $('#btn_active').click(() => {
+        location.href = '${contextPath}/user/active.do';
+      })
     }
     fnActive();
   </script>
