@@ -17,7 +17,6 @@ import com.gdu.myhome.util.MyFileUtils;
 import com.gdu.myhome.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
-import net.coobird.thumbnailator.Thumbnailator;
 import net.coobird.thumbnailator.Thumbnails;
 
 @Transactional
@@ -30,7 +29,7 @@ public class UploadServiceImpl implements UploadService {
   private final MyPageUtils myPageUtils;
   
   @Override
-  public int addUpload(MultipartHttpServletRequest multipartRequest) throws Exception {
+  public boolean addUpload(MultipartHttpServletRequest multipartRequest) throws Exception {
     
     String title = multipartRequest.getParameter("title");
     String contents = multipartRequest.getParameter("contents");
@@ -44,11 +43,19 @@ public class UploadServiceImpl implements UploadService {
                                   .build())
                         .build();
     
-    int addUploadResult = uploadMapper.insertUpload(upload);
+    int uploadCount = uploadMapper.insertUpload(upload);
     
     List<MultipartFile> files = multipartRequest.getFiles("files");
     
-    int attachCount = 0;
+    // 첨부 없을 때 : [MultipartFile[field="files", filename=, contentType=application/octet-stream, size=0]]
+    // 첨부 1개     : [MultipartFile[field="files", filename="animal1.jpg", contentType=image/jpeg, size=123456]]
+    
+    int attachCount;
+    if(files.get(0).getSize() == 0) {
+      attachCount = 1;
+    } else {
+      attachCount = 0;
+    }
     
     for(MultipartFile multipartFile : files) {
       
@@ -90,7 +97,7 @@ public class UploadServiceImpl implements UploadService {
       
     }  // for
     
-    return 0;
+    return (uploadCount == 1) && (files.size() == attachCount);
     
   }
   
