@@ -5,6 +5,15 @@
 
 <mapper namespace="com.gdu.movie.dao.MovieMapper">
 
+  <select id="getMovieCount" resultType="int">
+    SELECT COUNT(*)
+      FROM MOVIE
+  </select>
 
+  <select id="getMovieList" resultType="MovieDto">
+    SELECT NO, TITLE, GENRE, DESCRIPTION, STAR
+      FROM MOVIE
+     ORDER BY NO ASC
+  </select>
 
 </mapper>
