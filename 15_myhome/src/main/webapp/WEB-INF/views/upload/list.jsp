@@ -63,7 +63,6 @@
 		  dataType: 'json',
 		  success: (resData) => {  // resData = {"uploadList": [], "totalPage": 10}
 			  totalPage = resData.totalPage;
-		    $('#upload_list').empty();
 		    $.each(resData.uploadList, (i, upload) => {
 		    	let str = '<div class="upload">';
 		    	str += '<div>제목: ' + upload.title + '</div>';
@@ -81,7 +80,7 @@
 	  
 	  var timerId;  // 최초 undefined 상태
 	  
-	  $(window).on('scroll', (ev) => {
+	  $(window).on('scroll', () => {
 		  
 		  if(timerId){  // timerId가 undefined이면 false로 인식, timerId가 값을 가지면 true로 인식
 			  clearTimeout(timerId);
@@ -89,11 +88,11 @@
 		  
 		  timerId = setTimeout(() => {  // setTimeout 실행 전에는 timerId가 undefined 상태, setTimeout이 한 번이라도 동작하면 timerId가 값을 가짐
 			  
-			  let scrollTop = $(ev.target).scrollTop();  // 스크롤바 위치(스크롤 된 길이)
-			  let windowHeight = $(ev.target).height();  // 화면 전체 크기
+			  let scrollTop = $(window).scrollTop();     // 스크롤바 위치(스크롤 된 길이)
+			  let windowHeight = $(window).height();     // 화면 전체 크기
 			  let documentHeight = $(document).height(); // 문서 전체 크기
 			  
-			  if(scrollTop + windowHeight + 50 >= documentHeight) {  // 스크롤이 바닥에 닿기 50px 전에 true가 됨
+			  if((scrollTop + windowHeight + 100) >= documentHeight) {  // 스크롤이 바닥에 닿기 100px 전에 true가 됨
 				  if(page > totalPage){  // 마지막 페이지를 보여준 이후에 true가 됨
 					  return;              // 마지막 페이지를 보여준 이후에는 아래 코드를 수행하지 말 것 
 				  }
@@ -101,7 +100,7 @@
 				  fnGetUploadList();
 			  }
 			  
-		  }, 500);  // 500밀리초(0.5초) 후 동작(시간은 임의로 조정 가능함)
+		  }, 200);  // 200밀리초(0.2초) 후 동작(시간은 임의로 조정 가능함)
 		  
 	  })
 	  
@@ -112,6 +111,7 @@
 	  if(addResult !== ''){
 		  if(addResult === 'true'){
 			  alert('성공적으로 업로드 되었습니다.');
+		    $('#upload_list').empty();
 			  fnGetUploadList();
 		  } else {
 			  alert('업로드가 실패하였습니다.');
