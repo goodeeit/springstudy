@@ -19,15 +19,14 @@
     margin: 10px auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-  }
+   }
   .upload {
     width: 300px;
     height: 300px;
     border: 1px solid gray;
     text-align: center;
     padding-top: 100px;
-    margin-top: 20px;
+    margin: 20px 15px;
   }
   .upload:hover {
     background-color: silver;
