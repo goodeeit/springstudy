@@ -12,7 +12,7 @@
     <result  column="CONTENTS"     property="contents"/>
     <result  column="CREATED_AT"   property="createdAt"/>
     <result  column="MODIFIED_AT"  property="modifiedAt"/>
-    <result  column="ATTACH_COUNT"      property="attachCount"/>
+    <result  column="ATTACH_COUNT" property="attachCount"/>
     <association javaType="UserDto"      property="userDto">
       <id        column="USER_NO"        property="userNo"/>
       <result    column="EMAIL"          property="email" />
