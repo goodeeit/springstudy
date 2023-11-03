@@ -115,7 +115,6 @@
 		  if(addResult === 'true'){
 			  alert('성공적으로 업로드 되었습니다.');
 		    $('#upload_list').empty();
-			  fnGetUploadList();
 		  } else {
 			  alert('업로드가 실패하였습니다.');
 		  }
