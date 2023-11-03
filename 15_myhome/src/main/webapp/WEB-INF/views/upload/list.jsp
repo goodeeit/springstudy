@@ -78,6 +78,12 @@
 		  }
 	  })
   }
+  
+  const fnUploadDetail = () => {
+	  $(document).on('click', '.upload', function(){
+		  location.href = '${contextPath}/upload/detail.do?uploadNo=' + $(this).data('upload_no');
+	  })
+  }
 
   const fnScroll = () => {
 	  
@@ -122,6 +128,7 @@
   }
   
   fnGetUploadList();
+  fnUploadDetail();
   fnScroll();
   fnAddResult();
 
