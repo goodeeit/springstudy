@@ -61,7 +61,10 @@ public class UploadController {
     return uploadService.download(request);
   }
   
-  
+  @GetMapping("/downloadAll.do")
+  public ResponseEntity<Resource> downloadAll(HttpServletRequest request) {
+    return uploadService.downloadAll(request);
+  }
   
   
   

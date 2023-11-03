@@ -52,6 +52,7 @@
           ${atc.originalFilename}
         </div>
       </c:forEach>
+      <div><a href="${contextPath}/upload/downloadAll.do?uploadNo=${upload.uploadNo}">모두 다운로드</a></div>
     </c:if>
   </div>
   
