@@ -68,7 +68,7 @@ public class UploadController {
     return uploadService.downloadAll(request);
   }
   
-  @PostMapping("/edit.form")
+  @GetMapping("/edit.form")
   public String edit(@RequestParam(value="uploadNo", required=false, defaultValue="0") int uploadNo
                    , Model model) {
     model.addAttribute("upload", uploadService.getUpload(uploadNo));
@@ -94,10 +94,10 @@ public class UploadController {
     return uploadService.removeAttach(request);
   }
   
-  
-  
-  
-  
-  
+  @ResponseBody
+  @PostMapping(value="/addAttach.do", produces="application/json")
+  public Map<String, Object> addAttach(MultipartHttpServletRequest multipartRequest) throws Exception {
+    return uploadService.addAttach(multipartRequest);
+  }
   
 }
