@@ -32,12 +32,34 @@
   <!-- 첨부 추가 -->
   
   <!-- 첨부 목록에서 삭제 -->
+  <div id="attach_list"></div>
   
 </div>
   
 <script>
 
+  const fnAttachList = () => {
+	  $.ajax({
+		  // 요청
+		  type: 'get',
+		  url: '${contextPath}/upload/getAttachList.do',
+		  data: 'uploadNo=${upload.uploadNo}',
+		  // 응답
+		  dataType: 'json',
+		  success: (resData) => {  // resData = {"attachList": []}
+			  $('#attach_list').empty();
+		    $.each(resData.attachList, (i, attach) => {
+		    	let str = '<div>';
+		    	str += '<span>' + attach.originalFilename + '</span>';
+		    	str += '<span><i class="fa-solid fa-xmark"></i></span>';
+		    	str += '</div>';
+		    	$('#attach_list').append(str);
+		    })
+		  }
+	  })
+  }
 
+  fnAttachList();
   
 </script>
   

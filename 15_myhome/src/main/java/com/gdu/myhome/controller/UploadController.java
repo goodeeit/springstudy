@@ -82,7 +82,11 @@ public class UploadController {
     return "redirect:/upload/detail.do?uploadNo=" + upload.getUploadNo();
   }
   
-  
+  @ResponseBody
+  @GetMapping(value="/getAttachList.do", produces="application/json")
+  public Map<String, Object> getAttachList(HttpServletRequest request) {
+    return uploadService.getAttachList(request);
+  }
   
   
   

@@ -20,4 +20,5 @@ public interface UploadService {
   public void removeTempFiles();
   public UploadDto getUpload(int uploadNo);
   public int modifyUpload(UploadDto upload);
+  public Map<String, Object> getAttachList(HttpServletRequest request);
 }

@@ -294,7 +294,15 @@ public class UploadServiceImpl implements UploadService {
     return uploadMapper.updateUpload(upload);
   }
   
-  
+  @Override
+  public Map<String, Object> getAttachList(HttpServletRequest request) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("uploadNo"));
+    int uploadNo = Integer.parseInt(opt.orElse("0"));
+    
+    return Map.of("attachList", uploadMapper.getAttachList(uploadNo));
+    
+  }
   
   
   
