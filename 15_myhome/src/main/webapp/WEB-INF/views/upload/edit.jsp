@@ -23,7 +23,9 @@
       <div>내용</div>
       <div><textarea name="contents">${upload.contents}</textarea></div>
       <input type="hidden" name="uploadNo" value="${upload.uploadNo}">
-      <button type="submit" id="btn_modify">수정</button>
+      <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">      
+        <button type="submit" id="btn_modify">수정</button>
+      </c:if>
     </form>
   </div>
   
@@ -51,7 +53,9 @@
 		    $.each(resData.attachList, (i, attach) => {
 		    	let str = '<div>';
 		    	str += '<span>' + attach.originalFilename + '</span>';
-		    	str += '<span data-attach_no="' + attach.attachNo + '"><i class="fa-solid fa-xmark ico_remove_attach"></i></span>';
+		    	if('${sessionScope.user.userNo}' === '${upload.userDto.userNo}'){		    		
+  		    	str += '<span data-attach_no="' + attach.attachNo + '"><i class="fa-solid fa-xmark ico_remove_attach"></i></span>';
+		    	}
 		    	str += '</div>';
 		    	$('#attach_list').append(str);
 		    })
