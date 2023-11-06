@@ -2,6 +2,7 @@ package com.gdu.myhome.service;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +80,8 @@ public class BlogServiceImpl implements BlogService {
   @Override
   public int addBlog(HttpServletRequest request) {
 
+    //** 수정된 메소드 **//
+    
     // BLOG_T에 추가할 데이터
     String title = request.getParameter("title");
     String contents = request.getParameter("contents");
@@ -100,26 +103,42 @@ public class BlogServiceImpl implements BlogService {
     // insertBlog() 메소드로 전달한 blog 객체에 blogNo값이 저장된다.
     int addResult = blogMapper.insertBlog(blog);
     
-    // BLOG 작성시 사용한 이미지 목록 (Jsoup 라이브러리 사용)
+    // Editor에 추가한 이미지 목록 가져와서 BLOG_IMAGE_T에 저장하기
+    for(String editorImage : getEditorImageList(contents)) {
+      BlogImageDto blogImage = BlogImageDto.builder()
+          .blogNo(blog.getBlogNo())
+          .imagePath(myFileUtils.getBlogImagePath())
+          .filesystemName(editorImage)
+          .build();
+      blogMapper.insertBlogImage(blogImage);
+    }
+    
+    return addResult;
+    
+  }
+  
+  public List<String> getEditorImageList(String contents) {
+    
+    //** 신규 메소드 **//
+    // Editor에 추가한 이미지 목록 반환하기 (Jsoup 라이브러리 사용)
+    
+    List<String> editorImageList = new ArrayList<>();
+    
     Document document = Jsoup.parse(contents);
     Elements elements =  document.getElementsByTag("img");
     
     if(elements != null) {
       for(Element element : elements) {
         String src = element.attr("src");
-        String filesystemName = src.substring(src.lastIndexOf("/") + 1); 
-        BlogImageDto blogImage = BlogImageDto.builder()
-                                    .blogNo(blog.getBlogNo())
-                                    .imagePath(myFileUtils.getBlogImagePath())
-                                    .filesystemName(filesystemName)
-                                    .build();
-        blogMapper.insertBlogImage(blogImage);
+        String filesystemName = src.substring(src.lastIndexOf("/") + 1);
+        editorImageList.add(filesystemName);
       }
     }
     
-    return addResult;
+    return editorImageList;
     
   }
+
   
   @Transactional(readOnly=true)
   public void blogImageBatch() {
@@ -183,16 +202,38 @@ public class BlogServiceImpl implements BlogService {
   @Override
   public int modifyBlog(HttpServletRequest request) {
     
+    //** 수정된 메소드 **//
+    
+    // 수정할 제목/내용/블로그번호
     String title = request.getParameter("title");
     String contents = request.getParameter("contents");
     int blogNo = Integer.parseInt(request.getParameter("blogNo"));
     
+    // 기존 이미지
+    List<BlogImageDto> blogImageList = blogMapper.getBlogImageList(blogNo);
+        
+    // Editor 이미지
+    List<String> editorImageList = getEditorImageList(contents);
+    
+    // 기존 이미지에 있고, Editor에 없는 이미지는 기존 이미지를 삭제해야 함
+    List<File> removeList = blogImageList.stream()
+                              .filter(blogImage -> !editorImageList.contains(blogImage.getFilesystemName()))
+                              .map(blogImage -> new File(blogImage.getImagePath(), blogImage.getFilesystemName()))
+                              .collect(Collectors.toList());
+    System.out.println(removeList);
+    
+    // 기존 이미지에 없고, Editor에 있는 이미지는 Editor 이미지를 추가해야 함
+    
+    
+    
+    // 수정할 제목/내용/블로그번호를 가진 BlogDto
     BlogDto blog = BlogDto.builder()
                     .title(title)
                     .contents(contents)
                     .blogNo(blogNo)
                     .build();
     
+    // BLOG_T 수정
     int modifyResult = blogMapper.updateBlog(blog);
     
     return modifyResult;
@@ -201,7 +242,24 @@ public class BlogServiceImpl implements BlogService {
   
   @Override
   public int removeBlog(int blogNo) {
+    
+    //** 수정된 메소드 **//
+    
+    // BLOG_IMAGE_T 목록 가져와서 파일 삭제
+    List<BlogImageDto> blogImageList = blogMapper.getBlogImageList(blogNo);
+    for(BlogImageDto blogImage : blogImageList) {
+      File file = new File(blogImage.getImagePath(), blogImage.getFilesystemName());
+      if(file.exists()) {
+        file.delete();
+      }
+    }
+    
+    // BLOG_IMAGE_T 삭제
+    blogMapper.deleteBlogImage(blogNo);
+    
+    // BLOG_T 삭제
     return blogMapper.deleteBlog(blogNo);
+    
   }
   
   

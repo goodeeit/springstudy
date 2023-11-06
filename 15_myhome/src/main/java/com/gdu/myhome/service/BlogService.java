@@ -1,5 +1,6 @@
 package com.gdu.myhome.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import com.gdu.myhome.dto.BlogDto;
 public interface BlogService {
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest);
   public int addBlog(HttpServletRequest request);
+  public List<String> getEditorImageList(String contents);
   public void blogImageBatch();
   public void loadBlogList(HttpServletRequest request, Model model);
   public int increseHit(int blogNo);

@@ -138,6 +138,18 @@
      WHERE BLOG_NO = #{blogNo}
   </update>
   
+  <select id="getBlogImageList" parameterType="int" resultType="BlogImageDto">
+    SELECT BLOG_NO, IMAGE_PATH, FILESYSTEM_NAME
+      FROM BLOG_IMAGE_T
+     WHERE BLOG_NO = #{blogNo}
+  </select>
+  
+  <delete id="deleteBlogImage" parameterType="int">
+    DELETE
+      FROM BLOG_IMAGE_T
+     WHERE BLOG_NO = #{blogNo}
+  </delete>
+
   <delete id="deleteBlog" parameterType="int">
     DELETE
       FROM BLOG_T

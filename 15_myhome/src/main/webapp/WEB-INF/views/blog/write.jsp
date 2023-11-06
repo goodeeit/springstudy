@@ -54,7 +54,6 @@
   const fnCkeditor = () => {
 	  DecoupledEditor
       .create(document.getElementById('ckeditor'), {
-    	  plugins: [Image, ImageResizeEditing, ImageResizeHandles],
     	  ckfinder: {
           // 이미지 업로드 경로
           uploadUrl: '${contextPath}/blog/imageUpload.do'    		  

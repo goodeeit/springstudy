@@ -283,6 +283,22 @@ public class UploadServiceImpl implements UploadService {
     }
   }
   
+  @Transactional(readOnly=true)
+  @Override
+  public UploadDto getUpload(int uploadNo) {
+    return uploadMapper.getUpload(uploadNo);
+  }
+  
+  @Override
+  public int modifyUpload(UploadDto upload) {
+    return uploadMapper.updateUpload(upload);
+  }
+  
+  
+  
+  
+  
+  
   
   
 }
