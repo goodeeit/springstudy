@@ -21,4 +21,11 @@ public interface UploadService {
   public UploadDto getUpload(int uploadNo);
   public int modifyUpload(UploadDto upload);
   public Map<String, Object> getAttachList(HttpServletRequest request);
+  public Map<String, Object> removeAttach(HttpServletRequest request);
 }
+
+
+
+
+
+

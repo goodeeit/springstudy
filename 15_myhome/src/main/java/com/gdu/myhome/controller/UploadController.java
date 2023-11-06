@@ -88,6 +88,12 @@ public class UploadController {
     return uploadService.getAttachList(request);
   }
   
+  @ResponseBody
+  @PostMapping(value="/removeAttach.do", produces="application/json")
+  public Map<String, Object> removeAttach(HttpServletRequest request) {
+    return uploadService.removeAttach(request);
+  }
+  
   
   
   
