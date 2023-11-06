@@ -130,15 +130,10 @@
      WHERE ATTACH_NO = #{attachNo}
   </delete>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  <delete id="deleteUpload" parameterType="int">
+    DELETE
+      FROM UPLOAD_T
+     WHERE UPLOAD_NO = #{uploadNo}
+  </delete>
   
 </mapper>
