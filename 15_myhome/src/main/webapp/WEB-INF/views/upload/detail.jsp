@@ -10,34 +10,28 @@
   <jsp:param value="${upload.uploadNo}번 게시글" name="title"/>
 </jsp:include>
 
-<style>
-  .attach {
-    cursor: pointer;
-  }
-</style>
-
 <div>
 
-  <h1 style="text-align: center;">Upload 게시글</h1>
+  <h1 class="title">웹하드 게시글</h1>
   <div>작성자 : ${upload.userDto.name}</div>
   <div>작성일 : ${upload.createdAt}</div>
   <div>수정일 : ${upload.modifiedAt}</div>
   <div>제목 : ${upload.title}</div>
   <div>내용</div>
   <div>${upload.contents}</div>
-  <div>
+  <div class="btn_wrap">
     <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">
       <form id="frm_btn">
         <input type="hidden" name="uploadNo" value="${upload.uploadNo}">
-        <button type="button" id="btn_edit">편집</button>
-        <button type="button" id="btn_remove">삭제</button>
+        <button type="button" id="btn_edit" class="btn btn-warning">편집</button>
+        <button type="button" id="btn_remove" class="btn btn-danger">삭제</button>
       </form>
     </c:if>
   </div>
   
   <hr>
   
-  <h4>첨부 다운로드</h4>
+  <h5>첨부 다운로드</h5>
   <div>
     <c:if test="${empty attachList}">
       <div>첨부 없음</div>
@@ -46,12 +40,12 @@
       <c:forEach items="${attachList}" var="atc">
         <div class="attach" data-attach_no="${atc.attachNo}">
           <c:if test="${atc.hasThumbnail == 1}">
-            <img src="${contextPath}${atc.path}/s_${atc.filesystemName}" alt="썸네일" width="50px">
+            <img src="${contextPath}${atc.path}/s_${atc.filesystemName}" alt="썸네일">
           </c:if>
           <c:if test="${atc.hasThumbnail == 0}">
-            <img src="${contextPath}/resources/image/attach1.png" alt="썸네일" width="50px">
+            <img src="${contextPath}/resources/image/attach1.png" alt="썸네일">
           </c:if>
-          ${atc.originalFilename}
+          <a>${atc.originalFilename}</a>
         </div>
       </c:forEach>
       <div><a href="${contextPath}/upload/downloadAll.do?uploadNo=${upload.uploadNo}">모두 다운로드</a></div>
@@ -65,40 +59,40 @@
   var frmBtn = $('#frm_btn');
 
   const fnEdit = () => {
-	  $('#btn_edit').click(() => {
-		  frmBtn.attr('action', '${contextPath}/upload/edit.form');
-		  frmBtn.attr('method', 'get');
-		  frmBtn.submit();
-	  })
+    $('#btn_edit').click(() => {
+      frmBtn.attr('action', '${contextPath}/upload/edit.form');
+      frmBtn.attr('method', 'get');
+      frmBtn.submit();
+    })
   }
   
   const fnRemove = () => {
-	  $('#btn_remove').click(() => {
-		  if(confirm('해당 게시글을 삭제할까요?')){
+    $('#btn_remove').click(() => {
+      if(confirm('해당 게시글을 삭제할까요?')){
         frmBtn.attr('action', '${contextPath}/upload/removeUpload.do');
         frmBtn.attr('method', 'post');
         frmBtn.submit();
-		  }
-	  })
+      }
+    })
   }
 
   const fnDownload = () => {
-	  $('.attach').click(function(){
-		  if(confirm('다운로드 할까요?')){
-			  location.href = '${contextPath}/upload/download.do?attachNo=' + $(this).data('attach_no');
-		  }
-	  })
+    $('.attach').click(function(){
+      if(confirm('다운로드 할까요?')){
+        location.href = '${contextPath}/upload/download.do?attachNo=' + $(this).data('attach_no');
+      }
+    })
   }
   
   const fnModifyResult = () => {
-	  let modifyResult = '${modifyResult}';
-	  if(modifyResult !== ''){
-		  if(modifyResult === '1'){
-			  alert('게시글이 수정되었습니다.');
-		  } else {
-			  alert('게시글이 수정되지 않았습니다.');
-		  }
-	  }
+    let modifyResult = '${modifyResult}';
+    if(modifyResult !== ''){
+      if(modifyResult === '1'){
+        alert('게시글이 수정되었습니다.');
+      } else {
+        alert('게시글이 수정되지 않았습니다.');
+      }
+    }
   }
   
   fnEdit();

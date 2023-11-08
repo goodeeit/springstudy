@@ -12,18 +12,17 @@
 
 <script src="${contextPath}/resources/js/user_join.js?dt=${dt}"></script>
 
-<div>
+<div class="wrap wrap_7">
+
+  <h1 class="title">회원가입</h1>
 
   <form id="frm_join" method="post" action="${contextPath}/user/join.do">
     
-    <h1>회원가입</h1>
-    
     <div>
-      <div>
-        <label for="email">이메일</label>
-        <input type="text" name="email" id="email">
-        <button type="button" id="btn_get_code">인증코드받기</button>
-        <span id="msg_email"></span>
+      <div class="mb-3 row">
+        <label for="email" class="col-sm-2 col-form-label">이메일</label>
+        <div class="col-sm-7"><input type="text" name="email" id="email" placeholder="이메일" class="form-control"></div>
+        <div class="col-sm-3"><button type="button" id="btn_get_code" class="btn btn-primary">인증코드받기</button></div>
       </div>
       <div>
         <input type="text" id="code" placeholder="인증코드입력" disabled>

@@ -144,7 +144,13 @@
      WHERE BLOG_NO = #{blogNo}
   </select>
   
-  <delete id="deleteBlogImage" parameterType="int">
+  <delete id="deleteBlogImage" parameterType="String">
+    DELETE
+      FROM BLOG_IMAGE_T
+     WHERE FILESYSTEM_NAME = #{filesystemName}
+  </delete>
+  
+  <delete id="deleteBlogImageList" parameterType="int">
     DELETE
       FROM BLOG_IMAGE_T
      WHERE BLOG_NO = #{blogNo}

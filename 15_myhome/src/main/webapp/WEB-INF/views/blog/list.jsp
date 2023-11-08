@@ -12,16 +12,14 @@
 
 <div>
 
-  <div>
+  <div class="btn_wrap">
     <a href="${contextPath}/blog/write.form">
       <button type="button" class="btn btn-primary">새글작성</button>
     </a>
   </div>
   
-  <hr>
-  
-  <div>
-    <table border="1">
+  <div class="table-responsive">
+    <table class="table align-middle">
       <thead>
         <tr>
           <td>순번</td>
@@ -33,7 +31,7 @@
       </thead>
       <tbody>
         <c:forEach items="${blogList}" var="b" varStatus="vs">
-          <tr>
+          <tr class="align-bottom">
             <td>${beginNo - vs.index}</td>
             <td>
               <!-- 내가 작성한 블로그의 조회수는 증가하지 않는다. -->
@@ -63,8 +61,32 @@
 
 <script>
 
+  const fnAddResult = () => {
+    let addResult = '${addResult}';  // '', '1', '0'
+    if(addResult !== ''){
+      if(addResult === '1'){
+        alert('블로그가 작성되었습니다.');
+      } else {
+        alert('블로그 작성이 실패했습니다.');
+      }
+    }
+  }
+  
+  const fnRemoveResult = () => {
+    let removeResult = '${removeResult}';  // '', '1', '0'
+    if(removeResult !== ''){
+      if(removeResult === '1'){
+        alert('블로그가 삭제되었습니다.');
+        $('#upload_list').empty();
+      } else {
+        alert('블로그 삭제가 실패했습니다.');
+      }
+    }
+  }
 
-
+  fnAddResult();
+  fnRemoveResult();
+  
 </script>
 
 <%@ include file="../layout/footer.jsp" %>

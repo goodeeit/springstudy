@@ -26,7 +26,7 @@
 
   <form id="frm_blog_add" method="post" action="${contextPath}/blog/addBlog.do">
     
-    <h1 style="text-align: center;">블로그를 작성하세요</h1>
+    <h1 class="title">블로그를 작성하세요</h1>
     
     <div>
       <label for="title">제목</label>
@@ -40,9 +40,9 @@
       <div id="ckeditor"></div>
     </div>
     
-    <div>
+    <div class="btn_wrap">
       <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-      <button class="btn btn-primary col-12" type="submit">작성완료</button>
+      <button class="btn btn-primary" type="submit">작성완료</button>
     </div>
     
   </form>

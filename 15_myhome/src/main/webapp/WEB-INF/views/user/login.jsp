@@ -11,44 +11,42 @@
 </jsp:include>
 
 <style>
-  .login_form_wrap {
-    width: 400px;
+  .sub_menu {
+    display: flex;
+    justify-content: space-between;
   }
 </style>
   
-  <div class="center_wrap login_form_wrap">
-    <form method="post" action="${contextPath}/user/login.do">
-      <div class="row align-items-center">      
-        <div class="col-3">
-          <label for="email" class="col-form-label">아이디</label>
-        </div>
-        <div class="col-6">
-          <input type="text" name="email" id="email" placeholder="admin@gmail.com" class="form-control col-4">
-        </div>
+<div class="wrap wrap_5">
+  <h1 class="title">로그인</h1>
+  <form method="post" action="${contextPath}/user/login.do">
+    <div class="mb-3 row">
+      <label for="email" class="col-sm-3 col-form-label">아이디</label>
+      <div class="col-sm-9">
+        <input type="text" name="email" id="email" placeholder="이메일" class="form-control">
       </div>
-      <div class="row align-items-center">      
-        <div class="col-3">
-          <label for="pw" class="col-form-label">비밀번호</label>
-        </div>
-        <div class="col-6">
-          <input type="password" name="pw" id="pw" placeholder="●●●●" class="form-control col-4">
-        </div>
-      </div>
-      <div class="d-grid gap-2">
-        <input type="hidden" name="referer" value="${referer}">
-        <button class="btn btn-success" type="submit">로그인</button>
-      </div>
-    </form>
-    <ul class="ul_menu center_wrap">
-      <li><a href="${contextPath}">자동로그인</a>
-      <li><a href="${contextPath}">아이디/비밀번호 찾기</a>
-    </ul>
-    <hr>
-    <div>
-      <a href="${naverLoginURL}">
-        <img src="${contextPath}/resources/image/btnG_완성형.png" width="200px">
-      </a>
     </div>
+    <div class="mb-3 row">      
+      <label for="pw" class="col-sm-3 col-form-label">비밀번호</label>
+      <div class="col-sm-9">
+        <input type="password" name="pw" id="pw" placeholder="●●●●" class="form-control">
+      </div>
+    </div>
+    <div class="d-grid gap-2 btn_wrap">
+      <input type="hidden" name="referer" value="${referer}">
+      <button class="btn btn-primary btn-lg" type="submit">로그인</button>
+    </div>
+  </form>
+  <ul class="sub_menu">
+    <li><a href="${contextPath}/user/agree.form">회원가입</a>
+    <li><a href="${contextPath}">아이디/비밀번호 찾기</a>
+  </ul>
+  <hr>
+  <div class="btn_wrap" style="text-align: center;">
+    <a href="${naverLoginURL}">
+      <img src="${contextPath}/resources/image/btnG_완성형.png" width="200px">
+    </a>
   </div>
+</div>
 
 <%@ include file="../layout/footer.jsp" %>

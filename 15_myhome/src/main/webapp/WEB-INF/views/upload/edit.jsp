@@ -12,19 +12,41 @@
 
 <div>
 
-  <h1 style="text-align: center;">Upload 게시글</h1>
+  <h1 class="title">웹하드 게시글 수정</h1>
 
   <div>
     <form id="frm_edit" method="post" action="${contextPath}/upload/modify.do">
-      <div>작성자 : ${upload.userDto.name}</div>
-      <div>작성일 : ${upload.createdAt}</div>
-      <div>수정일 : ${upload.modifiedAt}</div>
-      <div>제목 : <input type="text" name="title" value="${upload.title}"></div>
-      <div>내용</div>
-      <div><textarea name="contents">${upload.contents}</textarea></div>
-      <input type="hidden" name="uploadNo" value="${upload.uploadNo}">
-      <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">      
-        <button type="submit" id="btn_modify">수정</button>
+      <div class="mb-3 row">
+        <label for="email" class="col-sm-2 col-form-label">작성자</label>
+        <div class="col-sm-10">
+          <input type="text" readonly class="form-control-plaintext" id="email" value="${upload.userDto.name}">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="createdAt" class="col-sm-2 col-form-label">작성일</label>
+        <div class="col-sm-10">
+          <input type="text" readonly class="form-control-plaintext" id="createdAt" value="${upload.createdAt}">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="modifiedAt" class="col-sm-2 col-form-label">작성일</label>
+        <div class="col-sm-10">
+          <input type="text" readonly class="form-control-plaintext" id="modifiedAt" value="${upload.modifiedAt}">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="title" class="form-label">제목</label>
+        <input type="text" name="title" value="${upload.title}" id="title" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="contents" class="form-label">내용</label>
+        <textarea name="contents" id="contents" class="form-control" rows="3">${upload.contents}</textarea>
+      </div>
+      <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">
+        <div class="btn_wrap">
+          <input type="hidden" name="uploadNo" value="${upload.uploadNo}">
+          <button type="submit" id="btn_modify" class="btn btn-success">수정하기</button>
+        </div>
       </c:if>
     </form>
   </div>
@@ -32,23 +54,20 @@
   <hr>
   
   <!-- 첨부 추가 -->
-  <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">      
-    <div class="mb-3 row">
-      <label for="files" class="form-label">신규 첨부</label>
-      <div class="col-sm-6">
-        <input type="file" name="files" id="files" class="form-control-file" multiple>
-      </div>
+  <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">
+    <h5>신규 첨부</h5>
+    <div class="input-group">
       <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-      <div class="col-sm-3">
-        <button type="button" class="btn btn-primary" id="btn_add_attach">첨부추가하기</button>
-      </div>
+      <input type="file" name="files" id="files"  class="form-control" multiple>
+      <button class="btn btn-outline-secondary" type="button" id="btn_add_attach">첨부추가하기</button>
     </div>
+    <div class="attached_list" id="attached_list"></div>
   </c:if>
   
   <hr>
   
   <!-- 첨부 목록에서 삭제 -->
-  <div>기존 첨부 목록</div>
+  <h5>기존 첨부 목록</h5>
   <div id="attach_list"></div>
   
 </div>
@@ -57,7 +76,7 @@
 
   const fnFileCheck = () => {
     $('#files').change((ev) => {
-      $('#file_list').empty();
+      $('#attached_list').empty();
       let maxSize = 1024 * 1024 * 100;
       let maxSizePerFile = 1024 * 1024 * 10;
       let totalSize = 0;
@@ -67,15 +86,15 @@
         if(files[i].size > maxSizePerFile){
           alert('각 첨부파일의 최대 크기는 10MB입니다.');
           $(ev.target).val('');
-          $('#file_list').empty();
+          $('#attached_list').empty();
           return;
         }
-        $('#file_list').append('<div>' + files[i].name + '</div>');
+        $('#attached_list').append('<div>' + files[i].name + '</div>');
       }
       if(totalSize > maxSize){
         alert('전체 첨부파일의 최대 크기는 100MB입니다.');
         $(ev.target).val('');
-        $('#file_list').empty();
+        $('#attached_list').empty();
         return;
       }
     })
@@ -126,10 +145,11 @@
       success: (resData) => {  // resData = {"attachList": []}
         $('#attach_list').empty();
         $.each(resData.attachList, (i, attach) => {
-          let str = '<div>';
-          str += '<span>' + attach.originalFilename + '</span>';
+          let str = '<div class="attach">';
+          str += '<img src="${contextPath}' + attach.path + '/' + attach.filesystemName + '">';
+          str += '<span style="margin: 0 10px;">' + attach.originalFilename + '</span>';
           if('${sessionScope.user.userNo}' === '${upload.userDto.userNo}'){            
-            str += '<span data-attach_no="' + attach.attachNo + '"><i class="fa-solid fa-xmark ico_remove_attach"></i></span>';
+            str += '<a data-attach_no="' + attach.attachNo + '"><i class="fa-regular fa-circle-xmark ico_remove_attach"></i></a>';
           }
           str += '</div>';
           $('#attach_list').append(str);

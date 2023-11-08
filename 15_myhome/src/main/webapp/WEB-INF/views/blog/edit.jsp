@@ -26,7 +26,7 @@
 
   <form id="frm_blog_modify" method="post" action="${contextPath}/blog/modifyBlog.do">
     
-    <h1 style="text-align: center;">${blog.blogNo}번 블로그 편집</h1>
+    <h1 class="title">${blog.blogNo}번 블로그 편집</h1>
     
     <div>
       <label for="title">제목</label>
@@ -40,9 +40,9 @@
       <div id="ckeditor">${blog.contents}</div>
     </div>
     
-    <div>
+    <div class="btn_wrap">
       <input type="hidden" name="blogNo" value="${blog.blogNo}">
-      <button class="btn btn-primary col-12" type="submit">수정완료</button>
+      <button class="btn btn-primary" type="submit">수정완료</button>
     </div>
     
   </form>

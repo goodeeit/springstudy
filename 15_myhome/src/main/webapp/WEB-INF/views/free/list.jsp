@@ -11,6 +11,9 @@
 </jsp:include>
 
 <style>
+  .search_wrap {
+    text-align: center;
+  }
   .blind {
     display: none;
   }
@@ -18,17 +21,31 @@
 
 <div>
 
-  <div>
+  <div class="btn_wrap">
     <a href="${contextPath}/free/write.form">
       <button type="button" class="btn btn-primary">새글작성</button>
     </a>
+    <a href="${contextPath}/free/list.do">
+      <button type="button" class="btn btn-success">전체보기</button>
+    </a>
   </div>
   
-  <hr>
+  <div class="search_wrap">
+    <form method="get" action="${contextPath}/free/search.do">
+      <div class="input-group mb-3">
+        <select class="form-select" name="column">
+          <option value="EMAIL">작성자</option>
+          <option value="CONTENTS">내용</option>
+        </select>
+        <input type="text" name="query" class="form-control" placeholder="검색어 입력">
+        <button type="submit" class="btn btn-outline-primary btn-sm">검색</button>
+      </div>
+    </form>
+  </div>
   
   <div>
-    <table border="1">
-      <thead>
+    <table class="table">
+      <thead class="table-light">
         <tr>
           <td>순번</td>
           <td>작성자</td>
@@ -53,12 +70,12 @@
                 <!-- 게시글내용 -->
                 ${free.contents}
                 <!-- 댓글작성버튼 -->
-                <button type="button" class="btn_reply">댓글</button>
+                <button type="button" class="btn btn-outline-dark btn-sm btn_reply">댓글</button>
                 <!-- 게시글삭제버튼 -->
                 <form class="frm_remove" method="post" action="${contextPath}/free/remove.do" style="display: inline;">
                   <c:if test="${free.email == sessionScope.user.email}">                  
                     <input type="hidden" name="freeNo" value="${free.freeNo}">
-                    <button type="submit">삭제</button>
+                    <button type="submit" class="btn btn-danger btn-sm">삭제</button>
                   </c:if>
                 </form>
               </td>
@@ -74,19 +91,19 @@
           <tr class="blind write_tr">
             <td colspan="4">
               <form method="post" action="${contextPath}/free/addReply.do">
-                <div>
-                  <label for="email">작성자</label>
-                  <input type="text" name="email" id="email" value="${sessionScope.user.email}" readonly>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" id="inputGroup-sizing-default">작성자</label>
+                  <input type="text" name="email" value="${sessionScope.user.email}" readonly class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                 </div>
-                <div>
-                  <label for="contents">내용</label>
-                  <input type="text" name="contents" id="contents">
+                <div class="input-group">
+                  <label for="contents" class="input-group-text">내용</label>
+                  <textarea name="contents" id="contents" class="form-control" aria-label="With textarea"></textarea>
+                  <button type="submit" class="btn btn-primary btn-sm">댓글달기</button>
                 </div>
                 <div>
                   <input type="hidden" name="depth" value="${free.depth}">
                   <input type="hidden" name="groupNo" value="${free.groupNo}">
                   <input type="hidden" name="groupOrder" value="${free.groupOrder}">
-                  <button type="submit">댓글달기</button>
                 </div>
               </form>
             </td>
@@ -99,16 +116,6 @@
         </tr>
       </tfoot>
     </table>
-    <div>
-      <form method="get" action="${contextPath}/free/search.do">
-        <select name="column">
-          <option value="EMAIL">작성자</option>
-          <option value="CONTENTS">내용</option>
-        </select>
-        <input type="text" name="query" placeholder="검색어 입력">
-        <button type="submit" class="btn btn-outline-primary">검색</button>
-      </form>
-    </div>
   </div>
 
 </div>

@@ -23,9 +23,9 @@
 
   <!-- 블로그 상세보기 -->
   <div>
-    <h1>${blog.title}</h1>
+    <h1 class="title">${blog.title}</h1>
     <div>작성자 : ${blog.userDto.name}</div>
-    <div>조회수 : ${blog.hit}</div>
+    <div>조회수 : <fmt:formatNumber value="${blog.hit}" pattern="#,##0"></fmt:formatNumber></div>
     <div>작성IP : ${blog.ip}</div>
     <div>작성일 : ${blog.createdAt}</div>
     <div>수정일 : ${blog.modifiedAt}</div>
@@ -36,8 +36,8 @@
           <input type="hidden" name="blogNo" value="${blog.blogNo}">
           <input type="hidden" name="title" value="${blog.title}">
           <input type="hidden" name="contents" value='${blog.contents}'>
-          <button type="button" id="btn_edit">편집</button>
-          <button type="button" id="btn_remove">삭제</button>
+          <button type="button" id="btn_edit" class="btn btn-warning btn-sm">편집</button>
+          <button type="button" id="btn_remove" class="btn btn-danger btn-sm">삭제</button>
         </form>
       </c:if>
     </div>
@@ -63,8 +63,20 @@
       })
     }
     
+    const fnModifyResult = () => {
+      let modifyResult = '${modifyResult}';
+      if(modifyResult !== ''){
+        if(modifyResult === '1'){
+          alert('게시글이 수정되었습니다.');
+        } else {
+          alert('게시글이 수정되지 않았습니다.');
+        }
+      }
+    }
+    
     fnEditBlog();
     fnRemoveBlog();
+    fnModifyResult();
     
   </script>
   
@@ -73,13 +85,15 @@
   <!-- 댓글 작성 화면 -->
   <div>
     <form id="frm_comment_add">
-      <textarea rows="3" cols="50" name="contents" id="contents" placeholder="댓글을 작성해 주세요"></textarea>
-      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-      <input type="hidden" name="blogNo" value="${blog.blogNo}">
-      <button type="button" id="btn_comment_add">작성완료</button>
+      <div class="input-group mb-3">
+        <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+        <input type="hidden" name="blogNo" value="${blog.blogNo}">
+        <textarea rows="5" name="contents" class="form-control" id="contents" placeholder="댓글을 작성해 주세요"></textarea>
+        <button type="button" class="btn btn-primary btn-sm" id="btn_comment_add">작성완료</button>
+      </div>
     </form>
   </div>
-  
+
   <!-- 블로그 댓글 목록 -->
   <div style="width: 100%; border-bottom: 1px solid gray;"></div>
   <div id="comment_list"></div>
@@ -158,26 +172,28 @@
               str += '  <div>' + c.userDto.name + '</div>';
               str += '  <div>' + c.contents + '</div>';
               str += '  <div style="font-size: 12px;">' + c.createdAt + '</div>';
+              str += '  <div>';
               if(c.depth === 0){
-                str += '  <div><button type="button" class="btn_open_reply">답글달기</button></div>';
+                str += '  <button type="button" class="btn btn-outline-primary btn-sm btn_open_reply">답글달기</button>';
               }
+              if('${sessionScope.user.userNo}' == c.userDto.userNo){                
+                str += '  <input type="hidden" value="' + c.commentNo + '">';
+                str += '  <i class="fa-regular fa-circle-xmark ico_remove_comment"></i>';
+              }
+              str += '  </div>';
               /************************** 답글 입력 창 **************************/
               str += '  <div class="blind frm_add_reply_wrap">';
               str += '    <form class="frm_add_reply">';
-              str += '      <textarea rows="3" cols="50" name="contents" placeholder="답글을 입력하세요"></textarea>';
               str += '      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">';
               str += '      <input type="hidden" name="blogNo" value="${blog.blogNo}">';
               str += '      <input type="hidden" name="groupNo" value="' + c.groupNo + '">';
-              str += '      <button type="button" class="btn_add_reply">답글작성완료</button>';
+              str += '      <div class="input-group mb-3">';
+              str += '        <textarea rows="2" name="contents" class="form-control" placeholder="답글을 입력하세요"></textarea>';
+              str += '        <button type="button" class="btn btn-success btn-sm btn_add_reply">답글작성완료</button>';
+              str += '      </div>';
               str += '    </form>';
               str += '  </div>';
               /******************************************************************/
-              if('${sessionScope.user.userNo}' == c.userDto.userNo){                
-                str += '  <div>';
-                str += '    <input type="hidden" value="' + c.commentNo + '">';
-                str += '    <i class="fa-regular fa-circle-xmark ico_remove_comment"></i>';
-                str += '  </div>';
-              }
             }
             str += '</div>';
             $('#comment_list').append(str);
@@ -282,21 +298,22 @@
       <div>이름</div>
       <div>내용</div>
       <div style="font-size: 12px;">작성일자</div>
-      <div><button type="button" class="btn_open_reply">답글달기</button></div>
+      <div>
+        <button type="button" class="btn btn-outline-primary btn-sm btn_open_reply">답글달기</button>
+        // 댓글 작성자만 삭제
+        <input type="hidden" value="commentNo값">
+        <i class="fa-regular fa-circle-xmark ico_remove_comment"></i>        
+      </div>
       <div class="blind frm_add_reply_wrap">
         <form class="frm_add_reply">
-          <textarea rows="3" cols="50" name="contents" placeholder="답글을 입력하세요"></textarea>
           <input type="hidden" name="userNo" value="">
           <input type="hidden" name="blogNo" value="">
           <input type="hidden" name="groupNo" value="">
-          <button type="button" class="btn_add_reply">답글작성완료</button>
+          <div class="input-group mb-3">
+            <textarea rows="2" name="contents" class="form-control" placeholder="답글을 입력하세요"></textarea>
+            <button type="button" class="btn btn-success btn-sm btn_add_reply">답글작성완료</button>
+          </div>
         </form>
-      </div>
-      
-      // 댓글 작성자만 삭제
-      <div>
-        <input type="hidden" value="commentNo값">
-        <i class="fa-regular fa-circle-xmark ico_remove_comment"></i>
       </div>
       
     </div>

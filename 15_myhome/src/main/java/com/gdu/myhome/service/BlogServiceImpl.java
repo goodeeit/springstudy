@@ -138,7 +138,6 @@ public class BlogServiceImpl implements BlogService {
     return editorImageList;
     
   }
-
   
   @Transactional(readOnly=true)
   public void blogImageBatch() {
@@ -209,22 +208,41 @@ public class BlogServiceImpl implements BlogService {
     String contents = request.getParameter("contents");
     int blogNo = Integer.parseInt(request.getParameter("blogNo"));
     
-    // 기존 이미지
-    List<BlogImageDto> blogImageList = blogMapper.getBlogImageList(blogNo);
+    // DB에 저장된 기존 이미지 가져오기
+    // 1. blogImageDtoList : BlogImageDto를 요소로 가지고 있음
+    // 2. blogImageList    : 이미지 이름(filesystemName)을 요소로 가지고 있음
+    List<BlogImageDto> blogImageDtoList = blogMapper.getBlogImageList(blogNo);
+    List<String> blogImageList = blogImageDtoList.stream()
+                                  .map(blogImageDto -> blogImageDto.getFilesystemName())
+                                  .collect(Collectors.toList());
         
-    // Editor 이미지
+    // Editor에 포함된 이미지 이름(filesystemName)
     List<String> editorImageList = getEditorImageList(contents);
+
+    // Editor에 포함되어 있으나 기존 이미지에 없는 이미지는 BLOG_IMAGE_T에 추가해야 함
+    editorImageList.stream()
+      .filter(editorImage -> !blogImageList.contains(editorImage))         // 조건 : Editor에 포함되어 있으나 기존 이미지에 포함되어 있지 않다.
+      .map(editorImage -> BlogImageDto.builder()                           // 변환 : Editor에 포함된 이미지 이름을 BlogImageDto로 변환한다.
+                            .blogNo(blogNo)
+                            .imagePath(myFileUtils.getBlogImagePath())
+                            .filesystemName(editorImage)
+                            .build())
+      .forEach(blogImageDto -> blogMapper.insertBlogImage(blogImageDto));  // 순회 : 변환된 BlogImageDto를 BLOG_IMAGE_T에 추가한다.
     
-    // 기존 이미지에 있고, Editor에 없는 이미지는 기존 이미지를 삭제해야 함
-    List<File> removeList = blogImageList.stream()
-                              .filter(blogImage -> !editorImageList.contains(blogImage.getFilesystemName()))
-                              .map(blogImage -> new File(blogImage.getImagePath(), blogImage.getFilesystemName()))
-                              .collect(Collectors.toList());
-    System.out.println(removeList);
-    
-    // 기존 이미지에 없고, Editor에 있는 이미지는 Editor 이미지를 추가해야 함
-    
-    
+    // 기존 이미지에 있으나 Editor에 포함되지 않은 이미지는 삭제해야 함
+    List<BlogImageDto> removeList = blogImageDtoList.stream()
+                                      .filter(blogImageDto -> !editorImageList.contains(blogImageDto.getFilesystemName()))  // 조건 : 기존 이미지 중에서 Editor에 포함되어 있지 않다.
+                                      .collect(Collectors.toList());                                                        // 조건을 만족하는 blogImageDto를 리스트로 반환한다.
+
+    for(BlogImageDto blogImageDto : removeList) {
+      // BLOG_IMAGE_T에서 삭제
+      blogMapper.deleteBlogImage(blogImageDto.getFilesystemName());  // 파일명은 UUID로 만들어졌으므로 파일명의 중복은 없다고 생각하면 된다.
+      // 파일 삭제
+      File file = new File(blogImageDto.getImagePath(), blogImageDto.getFilesystemName());
+      if(file.exists()) {
+        file.delete();
+      }
+    }
     
     // 수정할 제목/내용/블로그번호를 가진 BlogDto
     BlogDto blog = BlogDto.builder()
@@ -255,13 +273,12 @@ public class BlogServiceImpl implements BlogService {
     }
     
     // BLOG_IMAGE_T 삭제
-    blogMapper.deleteBlogImage(blogNo);
+    blogMapper.deleteBlogImageList(blogNo);
     
     // BLOG_T 삭제
     return blogMapper.deleteBlog(blogNo);
     
   }
-  
   
   @Override
   public Map<String, Object> addComment(HttpServletRequest request) {

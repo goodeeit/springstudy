@@ -20,7 +20,8 @@ public interface BlogMapper {
   public BlogDto getBlog(int blogNo);
   public int updateBlog(BlogDto blog);
   public List<BlogImageDto> getBlogImageList(int blogNo);
-  public int deleteBlogImage(int blogNo);
+  public int deleteBlogImage(String filesystemName);
+  public int deleteBlogImageList(int blogNo);
   public int deleteBlog(int blogNo);
   
   public int insertComment(CommentDto comment);

@@ -14,20 +14,20 @@
 
   <form id="frm_free_add" method="post" action="${contextPath}/free/add.do">
     
-    <h1>자유게시글을 작성하세요</h1>
+    <h1 class="title">자유게시글 작성</h1>
     
-    <div>
-      <label for="email">작성자</label>
-      <input type="text" name="email" id="email" value="${sessionScope.user.email}" readonly>
+    <div class="mb-3 row">
+      <label for="email" class="col-sm-1 col-form-label">작성자</label>
+      <div class="col-sm-11">
+        <input type="text" readonly class="form-control-plaintext" id="email" name="email" value="${sessionScope.user.email}">
+      </div>
     </div>
-    
-    <div>
-      <label for="contents">내용</label>
-      <textarea name="contents" id="contents"></textarea>
+    <div class="input-group">
+      <span class="input-group-text">내용</span>
+      <textarea rows="5" name="contents" class="form-control"></textarea>
     </div>
-    
-    <div>
-      <button type="submit">작성완료</button>
+    <div class="btn_wrap">
+      <button type="submit" class="btn btn-secondary">작성완료</button>
     </div>
     
   </form>
