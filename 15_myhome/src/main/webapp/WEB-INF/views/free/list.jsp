@@ -11,26 +11,23 @@
 </jsp:include>
 
 <style>
-  .search_wrap {
-    text-align: center;
-  }
   .blind {
     display: none;
   }
 </style>
 
-<div>
+<div class="wrap wrap_9">
 
-  <div class="btn_wrap">
+  <div class="text-center mb-3">
     <a href="${contextPath}/free/write.form">
-      <button type="button" class="btn btn-primary">새글작성</button>
+      <button type="button" class="btn btn-outline-primary">새글작성</button>
     </a>
     <a href="${contextPath}/free/list.do">
-      <button type="button" class="btn btn-success">전체보기</button>
+      <button type="button" class="btn btn-outline-success">전체보기</button>
     </a>
   </div>
   
-  <div class="search_wrap">
+  <div class="text-center my-3">
     <form method="get" action="${contextPath}/free/search.do">
       <div class="input-group mb-3">
         <select class="form-select" name="column">
@@ -59,13 +56,20 @@
             <td>${beginNo - vs.index}</td>
             <!-- 정상 게시글 -->            
             <c:if test="${free.status == 1}">
-              <td>${free.email}</td>
+              <td>
+                <c:if test="${free.email == null}">
+                  알수없음
+                </c:if>
+                <c:if test="${free.email != null}">
+                  ${free.email}
+                </c:if>
+              </td>
               <td>
                 <!-- depth에 따른 들여쓰기 -->              
                 <c:forEach begin="1" end="${free.depth}" step="1">&nbsp;&nbsp;</c:forEach>
                 <!-- 댓글은 댓글 아이콘 부착하기 -->
                 <c:if test="${free.depth != 0}">
-                  <i class="fa-brands fa-replyd"></i>
+                  <i class="fa-solid fa-share"></i>
                 </c:if>
                 <!-- 게시글내용 -->
                 ${free.contents}
@@ -93,7 +97,7 @@
               <form method="post" action="${contextPath}/free/addReply.do">
                 <div class="input-group mb-3">
                   <label class="input-group-text" id="inputGroup-sizing-default">작성자</label>
-                  <input type="text" name="email" value="${sessionScope.user.email}" readonly class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                  <input type="text" name="email" value="${sessionScope.user.email}" readonly class="form-control">
                 </div>
                 <div class="input-group">
                   <label for="contents" class="input-group-text">내용</label>

@@ -10,11 +10,11 @@
   <jsp:param value="블로그" name="title"/>
 </jsp:include>
 
-<div>
+<div class="wrap wrap_8">
 
-  <div class="btn_wrap">
+  <div class="text-center mb-3">
     <a href="${contextPath}/blog/write.form">
-      <button type="button" class="btn btn-primary">새글작성</button>
+      <button type="button" class="btn btn-outline-primary">새글작성</button>
     </a>
   </div>
   

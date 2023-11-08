@@ -11,21 +11,18 @@
 </jsp:include>
 
 <style>
-  div {
-    box-sizing: border-box;
-  }
   .upload_list {
-    width: 1000px;
     margin: 10px auto;
     display: flex;
     flex-wrap: wrap;
    }
   .upload {
-    width: 300px;
-    height: 300px;
+    width: 262px;
+    height: 262px;
     border: 1px solid gray;
+    border-radius: 5px;
     text-align: center;
-    padding-top: 100px;
+    padding-top: 80px;
     margin: 20px 15px;
   }
   .upload:hover {
@@ -34,11 +31,11 @@
   }
 </style>
 
-<div>
+<div class="wrap wrap_9">
 
-  <div>
+  <div class="text-center">
     <a href="${contextPath}/upload/write.form">
-      <button type="button" class="btn btn-primary">새글작성</button>
+      <button type="button" class="btn btn-outline-primary">새글작성</button>
     </a>
   </div>
   

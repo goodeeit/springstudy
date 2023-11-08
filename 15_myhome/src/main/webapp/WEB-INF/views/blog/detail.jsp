@@ -19,17 +19,11 @@
   }
 </style>
 
-<div>
+<div class="wrap wrap_8">
 
   <!-- 블로그 상세보기 -->
   <div>
-    <h1 class="title">${blog.title}</h1>
-    <div>작성자 : ${blog.userDto.name}</div>
-    <div>조회수 : <fmt:formatNumber value="${blog.hit}" pattern="#,##0"></fmt:formatNumber></div>
-    <div>작성IP : ${blog.ip}</div>
-    <div>작성일 : ${blog.createdAt}</div>
-    <div>수정일 : ${blog.modifiedAt}</div>
-    <div>
+    <div class="text-center">
       <!-- 블로그의 작성자는 편집/삭제를 수행할 수 있다. -->
       <c:if test="${sessionScope.user.userNo == blog.userDto.userNo}">
         <form id="frm_btn" method="post">
@@ -41,7 +35,13 @@
         </form>
       </c:if>
     </div>
-    <div>${blog.contents}</div>
+    <h1 class="title mt-4">${blog.title}</h1>
+    <div>작성자 : ${blog.userDto.name}</div>
+    <div>조회수 : <fmt:formatNumber value="${blog.hit}" pattern="#,##0"></fmt:formatNumber></div>
+    <div>작성IP : ${blog.ip}</div>
+    <div>작성일 : ${blog.createdAt}</div>
+    <div>수정일 : ${blog.modifiedAt}</div>
+    <div class="mt-3">${blog.contents}</div>
   </div>
   <script>
     
@@ -94,8 +94,9 @@
     </form>
   </div>
 
+  <hr class="my-3">
+
   <!-- 블로그 댓글 목록 -->
-  <div style="width: 100%; border-bottom: 1px solid gray;"></div>
   <div id="comment_list"></div>
   <div id="paging"></div>
   
@@ -155,16 +156,16 @@
           $('#comment_list').empty();
           $('#paging').empty();
           if(resData.commentList.length === 0){
-            $('#comment_list').text('첫 번째 댓글의 주인공이 되어 보세요');
+            $('#comment_list').html('<div class="text-center my-3">첫 번째 댓글의 주인공이 되어 보세요</div>');
             $('#paging').text('');
             return;
           }
           $.each(resData.commentList, (i, c) => {
             let str = '';
             if(c.depth === 0){
-              str += '<div style="width: 100%; border-bottom: 1px solid gray;">';
+              str += '<div">';
             } else {
-              str += '<div style="width: 100%; border-bottom: 1px solid gray; margin-left: 32px;">';
+              str += '<div style="padding-left: 32px;">';
             }
             if(c.status === 0){
               str += '<div>삭제된 댓글입니다.</div>';
@@ -196,6 +197,7 @@
               /******************************************************************/
             }
             str += '</div>';
+            str += '<hr class="my-3">';
             $('#comment_list').append(str);
           })
           $('#paging').append(resData.paging);  // fnAjaxPaging() 함수가 호출되는 곳
@@ -289,7 +291,7 @@
     fnCommentRemove();
     
     /*
-    <div style="width: 100%; border-bottom: 1px solid gray;">
+    <div>
 
       // 삭제된 댓글/답글
       <div>삭제된 댓글입니다</div>
@@ -317,6 +319,7 @@
       </div>
       
     </div>
+    <hr class="my-3">
     */
     
   </script>

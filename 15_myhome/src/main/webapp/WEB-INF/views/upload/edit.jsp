@@ -10,65 +10,71 @@
   <jsp:param value="${upload.uploadNo}번 게시글" name="title"/>
 </jsp:include>
 
-<div>
+<div class="wrap wrap_6">
 
   <h1 class="title">웹하드 게시글 수정</h1>
 
-  <div>
-    <form id="frm_edit" method="post" action="${contextPath}/upload/modify.do">
-      <div class="mb-3 row">
-        <label for="email" class="col-sm-2 col-form-label">작성자</label>
-        <div class="col-sm-10">
-          <input type="text" readonly class="form-control-plaintext" id="email" value="${upload.userDto.name}">
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label for="createdAt" class="col-sm-2 col-form-label">작성일</label>
-        <div class="col-sm-10">
-          <input type="text" readonly class="form-control-plaintext" id="createdAt" value="${upload.createdAt}">
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label for="modifiedAt" class="col-sm-2 col-form-label">작성일</label>
-        <div class="col-sm-10">
-          <input type="text" readonly class="form-control-plaintext" id="modifiedAt" value="${upload.modifiedAt}">
-        </div>
-      </div>
-      <div class="mb-3">
-        <label for="title" class="form-label">제목</label>
-        <input type="text" name="title" value="${upload.title}" id="title" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label for="contents" class="form-label">내용</label>
-        <textarea name="contents" id="contents" class="form-control" rows="3">${upload.contents}</textarea>
-      </div>
-      <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">
-        <div class="btn_wrap">
-          <input type="hidden" name="uploadNo" value="${upload.uploadNo}">
-          <button type="submit" id="btn_modify" class="btn btn-success">수정하기</button>
-        </div>
-      </c:if>
-    </form>
-  </div>
+  <form id="frm_upload_edit" method="post" action="${contextPath}/upload/modify.do">
   
-  <hr>
-  
-  <!-- 첨부 추가 -->
-  <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">
-    <h5>신규 첨부</h5>
-    <div class="input-group">
-      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-      <input type="file" name="files" id="files"  class="form-control" multiple>
-      <button class="btn btn-outline-secondary" type="button" id="btn_add_attach">첨부추가하기</button>
+    <div class="mb-3 row">
+      <label for="email" class="col-sm-2 col-form-label">작성자</label>
+      <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="email" value="${upload.userDto.name}">
+      </div>
     </div>
-    <div class="attached_list" id="attached_list"></div>
-  </c:if>
-  
-  <hr>
-  
-  <!-- 첨부 목록에서 삭제 -->
-  <h5>기존 첨부 목록</h5>
-  <div id="attach_list"></div>
+    
+    <div class="mb-3 row">
+      <label for="createdAt" class="col-sm-2 col-form-label">작성일</label>
+      <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="createdAt" value="${upload.createdAt}">
+      </div>
+    </div>
+    
+    <div class="mb-3 row">
+      <label for="modifiedAt" class="col-sm-2 col-form-label">작성일</label>
+      <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="modifiedAt" value="${upload.modifiedAt}">
+      </div>
+    </div>
+    
+    <div class="mb-3">
+      <label for="title" class="form-label">제목</label>
+      <input type="text" name="title" value="${upload.title}" id="title" class="form-control">
+    </div>
+    
+    <div class="mb-3">
+      <label for="contents" class="form-label">내용</label>
+      <textarea name="contents" id="contents" class="form-control" rows="3">${upload.contents}</textarea>
+    </div>
+    
+    <!-- 첨부 추가 -->
+    <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">
+      <h5>신규 첨부</h5>
+      <div class="input-group">
+        <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+        <input type="file" name="files" id="files"  class="form-control" multiple>
+        <button class="btn btn-outline-secondary" type="button" id="btn_add_attach">첨부추가하기</button>
+      </div>
+      <div class="attached_list mt-3" id="attached_list"></div>
+    </c:if>
+    
+    <hr class="my-3">
+
+    <!-- 첨부 목록에서 삭제 -->
+    <h5>기존 첨부 목록</h5>
+    <div id="attach_list"></div>
+
+    <c:if test="${sessionScope.user.userNo == upload.userDto.userNo}">
+      <div class="text-center my-3">
+        <a href="${contextPath}/upload/detail.do?uploadNo=${upload.uploadNo}">
+          <button class="btn btn-secondary" type="button">돌아가기</button>
+        </a>
+        <input type="hidden" name="uploadNo" value="${upload.uploadNo}">
+        <button type="submit" id="btn_modify" class="btn btn-success">수정하기</button>
+      </div>
+    </c:if>
+
+  </form>
   
 </div>
   
@@ -146,7 +152,11 @@
         $('#attach_list').empty();
         $.each(resData.attachList, (i, attach) => {
           let str = '<div class="attach">';
-          str += '<img src="${contextPath}' + attach.path + '/' + attach.filesystemName + '">';
+          if(attach.hasThumbnail === 0){
+        	  str += '<img src="${contextPath}/resources/image/attach1.png">';
+          } else {        	  
+            str += '<img src="${contextPath}' + attach.path + '/s_' + attach.filesystemName + '">';
+          }
           str += '<span style="margin: 0 10px;">' + attach.originalFilename + '</span>';
           if('${sessionScope.user.userNo}' === '${upload.userDto.userNo}'){            
             str += '<a data-attach_no="' + attach.attachNo + '"><i class="fa-regular fa-circle-xmark ico_remove_attach"></i></a>';
@@ -181,11 +191,26 @@
       })
     })
   }
+  
+  const fnModifyAttach = () => {
+	  $('#frm_upload_edit').submit((ev) => {
+      if($('#title').val() === ''){
+        alert('제목은 반드시 입력해야 합니다.');
+        $('#title').focus();
+        ev.preventDefault();
+        return;
+      } else if($('#files').val() !== ''){
+    	  $('#btn_add_attach').trigger('click');  // 첨부추가하기 버튼을 강제로 클릭함
+    	  return;
+      }
+	  })
+  }
 
   fnFileCheck();
   fnAddAttach();
   fnAttachList();
   fnRemoveAttach();
+  fnModifyAttach();
   
 </script>
   

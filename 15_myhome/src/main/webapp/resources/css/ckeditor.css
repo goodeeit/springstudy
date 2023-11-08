@@ -3,14 +3,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
 
-.paging {
-  text-align: center;
-  padding: 8px 0;
+.ck.ck-editor {
+  max-width: 1000px;
 }
-.paging a {
-  margin: 0 10px;
+.ck-editor__editable {
+  min-height: 400px;
 }
-.paging .now_page {
-  color: #198754;
-  font-weight: 900;
+.ck-content {
+  color: gray;
+}
+#ckeditor {
+  border: 1px solid silver;
 }

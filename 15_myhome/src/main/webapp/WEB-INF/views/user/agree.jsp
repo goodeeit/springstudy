@@ -12,28 +12,22 @@
 
 <script src="${contextPath}/resources/js/user_agree.js"></script>
 
-<style>
-  .form-check {
-    margin-top: 30px;
-  }
-</style>
-
 <div class="wrap wrap_5">
 
   <h1 class="title">약관 동의하기</h1>
 
   <form id="frm_agree" action="${contextPath}/user/join.form">
   
-    <div class="form-check">
+    <div class="form-check mt-3">
       <input type="checkbox" class="form-check-input" id="chk_all">
       <label class="form-check-label" for="chk_all">
         모두 동의합니다
       </label>
     </div>
 
-    <hr>
+    <hr class="my-2">
     
-    <div class="form-check">
+    <div class="form-check mt-3">
       <input type="checkbox" name="service" class="form-check-input chk_each" id="service">
       <label class="form-check-label" for="service">
         서비스 이용약관 동의(필수)
@@ -43,7 +37,7 @@
       <textarea rows="5" class="form-control">본 약관은 ...</textarea>
     </div>
     
-    <div class="form-check">
+    <div class="form-check mt-3">
       <input type="checkbox" name="event" class="form-check-input chk_each" id="event">
       <label class="form-check-label" for="event">
         이벤트 알림 동의(선택)
@@ -53,7 +47,7 @@
       <textarea rows="5" class="form-control">본 약관은 ...</textarea>
     </div>
 
-    <div class="btn_wrap">
+    <div class="mt-3 text-center">
       <button type="submit" class="btn btn-primary">다음</button>
     </div>
     
