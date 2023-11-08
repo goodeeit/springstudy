@@ -58,7 +58,7 @@
             <c:if test="${free.status == 1}">
               <td>
                 <c:if test="${free.email == null}">
-                  알수없음
+                  정보없음
                 </c:if>
                 <c:if test="${free.email != null}">
                   ${free.email}
