@@ -60,7 +60,7 @@
   }
   
   const fnBlogAdd = () => {
-	  $('#frm_blog_add').submit(() => {
+	  $('#frm_blog_add').submit((ev) => {
       if($('#title').val() === ''){
         alert('제목은 반드시 입력해야 합니다.');
         ev.preventDefault();
