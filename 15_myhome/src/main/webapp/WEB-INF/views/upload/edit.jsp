@@ -200,8 +200,10 @@
         ev.preventDefault();
         return;
       } else if($('#files').val() !== ''){
-    	  $('#btn_add_attach').trigger('click');  // 첨부추가하기 버튼을 강제로 클릭함
-    	  return;
+    	  alert('새로운 첨부가 있는 경우 첨부추가하기 버튼을 먼저 클릭해 주세요.');
+    	  $('#btn_add_attach').focus();
+    	  ev.preventDefault();
+        return;
       }
 	  })
   }

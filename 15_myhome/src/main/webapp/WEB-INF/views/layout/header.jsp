@@ -10,7 +10,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${param.title == null ? '마이홈' : param.title}</title>
+<title>
+  <c:if test="${empty param.title}">마이홈</c:if>
+  <c:if test="${not empty param.title}">${param.title}</c:if>
+</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <link rel="stylesheet" href="${contextPath}/resources/css/init.css?dt=${dt}" />
 <link rel="stylesheet" href="${contextPath}/resources/css/header.css?dt=${dt}" />
