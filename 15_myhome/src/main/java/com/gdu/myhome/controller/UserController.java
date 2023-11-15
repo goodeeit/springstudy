@@ -35,7 +35,7 @@ public class UserController {
     String ret = "";
     if(referer != null) {
       for(String url : exceptUrl) {
-        if(referer.endsWith(url)) {
+        if(referer.contains(url)) {
           ret = request.getContextPath() + "/main.do" ; 
         }
       }
