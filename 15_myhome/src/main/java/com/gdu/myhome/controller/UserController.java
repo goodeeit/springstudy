@@ -31,7 +31,19 @@ public class UserController {
   public String loginForm(HttpServletRequest request, Model model) throws Exception {
     // referer : 이전 주소가 저장되는 요청 Header 값
     String referer = request.getHeader("referer");
-    model.addAttribute("referer", referer == null ? request.getContextPath() + "/main.do" : referer);
+    String[] exceptUrl = {"/agree.form", "/join.form", "/join_option.form", "/find_id.form", "/find_pw.form"};
+    String ret = "";
+    if(referer != null) {
+      for(String url : exceptUrl) {
+        if(referer.endsWith(url)) {
+          ret = request.getContextPath() + "/main.do" ; 
+        }
+      }
+    } else {
+      ret = request.getContextPath() + "/main.do" ;
+    }
+    
+    model.addAttribute("referer", ret.isEmpty() ? referer : ret);
     // 네이버로그인-1
     model.addAttribute("naverLoginURL", userService.getNaverLoginURL(request));
     return "user/login";
