@@ -1,39 +1,42 @@
 - 서버 1대
 - 프로젝트 4개를 배포해야 함
-- 톰캣 4개가 필요함
-- 톰캣 프로그램을 하나의 컴퓨터에 각각 격리된 컨테이너 형식으로
-추가하고 실행하는 것
+- 조별로 톰캣 4개가 필요함
+- 톰캣 프로그램을 하나의 컴퓨터에 각각 격리된 컨테이너 형식으로 추가하고 실행하는 것
 ---------------------------------------------------------------
 도커(docker)
 - 리눅스에서만 동작
-- 윈도우즈 하위 시스템 리눅스이 필요함 (wsl)
+- 윈도우 하위 시스템 리눅스 필요함 (wsl)
 - WSL2 활성화 -> WSL 설치 -> 리눅스 커널 업데이트 -> 도커 데스크탑 설치
-- WSL2 활성화
+- WSL2 활성화 (재부팅 해야 함)
   [제어판] - [프로그램 및 기능] -[Windows 기능 켜기/끄기]
   Linux용 Windows 하위 시스템
   가상 머신 플랫폼
 - WSL 설치
-  명령 프롬프트(cmd)
+  명령 프롬프트(cmd) 열고 아래 명령 순서대로 입력
   wsl --update (업데이트)
   wsl -l -o (설치 가능한 리눅스 배포판 확인)
-  wsl --install -d Ubuntu (리눅스 배포판 중에서 Ubuntu 설치)
+  wsl --install -d Ubuntu (리눅스 배포판 중에서 Ubuntu 설치, 첫 번째 목록이었음)
   USERNAME : goodee
   PASSWORD : 1111
-- 리눅스 커널 업데이트(다운로드 후 설치)
-  https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
+- 리눅스 커널 업데이트
+  https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi (다운로드 바로 됨, 설치만 하면 됨)
 - 도커 데스크탑 설치
-  https://docs.docker.com/desktop/install/windows-install/
+  https://docs.docker.com/desktop/install/windows-install/ (다운로드 링크 찾아서 다운로드 후 설치하면 됨)
 ---------------------------------------------------------------
 도커 기본 용어
 - 컨테이너 : 프로그램
 - 이미지   : 컨테이너를 만들기 위한 재료
 ---------------------------------------------------------------
+cmd 열고 입력 또는 cmd 열고 wsl 입력해서 리눅스 진입 후 입력)
+
 도커 명령어 형식
 docker 상위명령 하위명령 [옵션] 대상 인자
 
 1. 이미지 내려 받기
+
 1) 원하는 이미지 검색
 docker search 이미지명
+
 2) 이미지 내려 받기
 docker image pull 이미지명      (가장 최근 이미지를 내려 받음)
 docker image pull 이미지명:태그 (원하는 버전을 내려 받음, 태그=버전)
@@ -69,13 +72,10 @@ docker container remove 컨테이너이름
 1. 컨테이너 실행(docker image pull + docker container create + docker container start)
 docker [container] run 옵션 이미지명:태그
 
-docker run -d --name tomcat -p 8080:8080 tomcat:9.0
+docker run -d --name tomcat -p 9090:8080 tomcat:9.0
   -d : 백그라운드 실행
   --name : 컨테이너이름 지정
-  -p : 호스트포트:컨테이너포트
-
-2. 컨테이너 삭제(docker container stop + docker container remove)
-docker [container] rm 컨테이너이름
+  -p 9090:8080 : 호스트포트:컨테이너포트  (호스트에 이미 톰캣이 8080 쓰고 있어서 9090 부여해 줌)
 
 ---------------------------------------------------------------
 
@@ -84,21 +84,23 @@ openjdk 설치(cmd에서 wsl 입력 후 리눅스 진입 후 작업 수행)
 1. 패키지 목록 업데이트
 sudo apt-get update
 
-2. jdk 검색
+2. openjdk 검색
 apt search openjdk
 
-3. jdk 설치
+3. openjdk 설치
 sudo apt-get -y install openjdk-11-jdk
 
-4. 설치 경로 확인
+4. 자바 설치 경로 확인
 update-alternatives --list java
+ /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+ =========여기가JAVA_HOME임========
 
 5. JAVA_HOME / Path 설정
 vi ~/.bashrc
 화면 열리면 방향키로 맨 아래로 이동 후
-입력모드 진입을 위해 o
-입력모드에서
-# JAVA_HOME
+입력모드 진입을 위해 o (알파벳 오)
+입력모드에서 아래와 같이 입력
+# JAVA_HOME (이건 주석)
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 입력이 끝나면 esc -> :(세미콜론) -> wq -> 엔터
@@ -108,19 +110,19 @@ source ~/.bashrc
 
 ---------------------------------------------------------------
 
-oracle 18c xe 설치
+oracle 18c xe 설치(cmd에서 wsl 입력 후 리눅스 진입 후 작업 수행)
 
 1. git 설치
 sudo apt-get -y install git
 
-2. github.com/oracle의 docker-images 레파지토리 복제하기
+2. github.com/oracle의 docker-images 레파지토리 복제하기 (현재 작업 중인 경로에 docker-images 레파지토리가 복제됨)
 git clone https://github.com/oracle/docker-images
 
-3. oracle 이미지를 만들어 주는 스크립트 파일 실행하기
+3. oracle 이미지를 만들어 주는 스크립트 파일 실행하기 (git clone 명령 내린 경로에서 그대로 명령 내려야 함)
 docker-images/OracleDatabase/SingleInstance/dockerfiles/buildContainerImage.sh -v 18.4.0 -x
 
-  -v 18.4.0    : oracle 18c 버전 의미
-  -x           : Express Edition 의미
+  -v 18.4.0    : oracle 18c 버전이다.
+  -x           : Express Edition이다.
 
 4. 생성된 이미지 확인
 docker images
@@ -128,15 +130,21 @@ docker images
 5. 컨테이너 실행
 docker run -d --name oracle-xe-18c -p 15210:1521 -e ORACLE_PWD=1111 oracle/database:18.4.0-xe
 
+  -d : 백그라운드 실행
+  --name : 컨테이너 이름 지정
+  -p 15210:1521 : 1521:1521로 설정하면 기존에 로컬에 설치된 오라클 리스너 1521과 충돌이 나서 15210:1521로 변경
+  -e ORACLE_PWD=1111  SYS 계정 비번 1111로 설정
+
 6. 컨테이너 실행 확인
 docker ps
-컨테이너 상태(STATUS)가 healthy가 될 때까지 기다려야 함
+컨테이너 상태(STATUS)가 healthy가 될 때까지 기다려야 함(starting -> unhealthy -> healthy, 10분 이상 소요 되었음)
 
 7. sqldeveloper 열고 SYS 접속 생성하기
 접속이름 : 오라클컨테이너_SYS
 사용자 : SYS
 비밀번호 : 1111
 롤 : SYSDBA
+호스트 : localhost
 포트번호 : 15210 (5번 과정에서 호스트 포트번호를 15210으로 수정했기 때문)
 
 GD 계정 만들기
@@ -148,29 +156,63 @@ GD 접속 생성하기
 접속이름 : 오라클컨테이너_GD
 사용자 : GD
 비밀번호 : 1111
+호스트 : localhost
 포트번호 : 15210
 
 8. sqldeveloper 열고 오라클컨테이너_GD 계정에 테이블/시퀀스 설치하기
 
 ---------------------------------------------------------------
+maven build (war 만들기)
 
-윈도우에 있는 war 파일을 리눅스 서버로 복사하기(powershell 열고 작업)
+1. application.properties 파일의 jdbc-url 수정 필요함
+ 1) cmd에서 wsl 입력(리눅스 진입)
+ 2) ip addr 입력
+ goodee@DESKTOP-EM9RR7A:/mnt/c/GDJ69/springstudy/15_myhome/target$ ip addr
+ 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+ 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:15:5d:a7:b1:c1 brd ff:ff:ff:ff:ff:ff
+    inet 172.24.205.100/20 brd 172.24.207.255 scope global eth0
+         ============== (이 주소로 application.properties 파일의 jdbc-url을 바꿔주고, 포트번호는 15210으로 수정함)
+       valid_lft forever preferred_lft forever
+    inet6 fe80::215:5dff:fea7:b1c1/64 scope link
+       valid_lft forever preferred_lft forever
+
+2. Run As - Maven build
+
+---------------------------------------------------------------
+
+윈도우에 있는 war 파일을 리눅스 서버로 복사하기(개인 PC에 도커 데스크톱 설치하고 연습하는 경우 필요 없음)
 
 1. war 있는 곳으로 이동
 cd C:\GDJ69\springstudy\15_myhome\target
 
-2. 리눅스 서버로 war 복사 (홈디렉토리로 복사)
-scp myhome.war goodee@서버주소:/home/goodee
+2. 리눅스 서버로 war 복사 (홈디렉토리로 복사하기)
+scp myhome.war 서버계정명@서버주소:/home/서버계정명
 
 ---------------------------------------------------------------
 
-리눅스에 있는 war 파일을 tomcat 컨테이너에 배포하기
+리눅스에 있는 war 파일을 tomcat 컨테이너에 배포하기(wsl에서 작업)
 
-1. war 파일을 tomcat 컨테이너 내부로 복사
+1. war 있는 곳으로 이동
+cd /mnt/c/GDJ69/springstudy/15_myhome/target
+
+2. war 파일을 tomcat 컨테이너 내부로 복사
 docker cp myhome.war tomcat:/usr/local/tomcat/webapps
+                     ------ -----------------
+                     컨테이너이름    CATALINA_HOME
 
-2. tomcat 컨테이너 내부로 들어가기
+3. tomcat 컨테이너 내부로 들어가기 (tomcat 컨테이너로 들어가서 bash를 쓸 수 있게 해 주시오.)
 docker exec -it tomcat bash
 
-3. tomcat 실행
+4. tomcat 실행
 ./bin/startup.sh
+
+---------------------------------------------------------------
+
+브라우저로 동작 확인
+  http://localhost:9090/myhome
